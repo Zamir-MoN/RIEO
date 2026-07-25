@@ -68,7 +68,7 @@ export default function Home() {
         </div>
 
         {/* Center Text */}
-        <div className="absolute top-[18vh] sm:top-[22vh] left-0 z-10 w-full flex justify-center pointer-events-none overflow-hidden">
+        <div className="absolute top-[32vh] -translate-y-1/2 left-0 z-10 w-full flex justify-center pointer-events-none overflow-hidden">
           <h1 className="text-[7.5rem] sm:text-[14rem] md:text-[18rem] lg:text-[24rem] font-custom text-[#0F0F0F] tracking-tighter opacity-100 leading-none whitespace-nowrap">
             RIEO
           </h1>
@@ -78,7 +78,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 w-full h-[55dvh] bg-gradient-to-t from-[#050505] via-[#050505]/90 to-transparent z-10 pointer-events-none" />
 
         {/* Portrait Image */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none h-[70dvh] lg:h-[85dvh] w-full flex items-end justify-center">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none h-[85dvh] w-full flex items-end justify-center">
           <img 
             src="/portrait.png" 
             alt="RIEO Portrait" 
@@ -86,8 +86,8 @@ export default function Home() {
           />
         </div>
         
-        {/* Subtle Fade Over Portrait for Dock (Mobile) */}
-        <div className="absolute bottom-0 left-0 w-full h-[30dvh] bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent z-30 pointer-events-none md:hidden" />
+        {/* Bottom Blend Fade */}
+        <div className="absolute bottom-0 left-0 w-full h-[15dvh] sm:h-[20dvh] bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent z-30 pointer-events-none" />
         
 
       </section>
