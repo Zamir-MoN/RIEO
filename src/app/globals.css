@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space-grotesk);
+  --font-custom: var(--font-yff-rare);
+
+  --color-bg-primary: #F4F4F0;
+  --color-bg-secondary: #EAEAE5;
+  --color-bg-card: rgba(255, 255, 255, 0.5);
+
+  --color-border-subtle: rgba(0, 0, 0, 0.15);
+
+  --color-accent-primary: #000000;
+  --color-accent-secondary: #333333;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #666666;
+
+  --animate-shimmer: shimmer 2s linear infinite;
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Selection */
+::selection {
+  background-color: var(--color-accent-primary);
+  color: #fff;
+}
+
+/* Hide scrollbar for clean look since we use Lenis */
+::-webkit-scrollbar {
+  display: none;
+}
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
