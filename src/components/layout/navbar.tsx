@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
@@ -9,7 +9,6 @@ import { MagneticButton } from "@/components/ui/magnetic-button";
 
 export function Navbar() {
   const { scrollY } = useScroll();
-  const [hidden, setHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -24,7 +23,7 @@ export function Navbar() {
   ];
 
   const pathname = usePathname();
-  const isDarkPage = pathname === "/store";
+  const isDarkPage = pathname === "/store" || pathname === "/";
   const useLightText = isDarkPage && !isScrolled;
 
   const textColor = useLightText ? "text-white" : "text-[var(--color-text-primary)]";
@@ -34,15 +33,15 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        isScrolled ? "py-4" : "py-6"
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 flex justify-center ${
+        isScrolled ? "py-2" : "py-4"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-8">
-        <div className={`flex items-center justify-between rounded-full px-6 py-3 transition-all duration-500 ${
+      <div className="w-full max-w-3xl px-4">
+        <div className={`flex items-center justify-between rounded-full px-6 py-2 transition-all duration-500 ${
           isScrolled 
             ? "bg-white/30 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.1)]" 
-            : "bg-transparent border-transparent"
+            : "bg-black/20 backdrop-blur-md border border-white/10 shadow-lg"
         }`}>
           
           {/* Logo */}
@@ -69,14 +68,14 @@ export function Navbar() {
 
           {/* Hire Me & Mobile Toggle */}
           <div className="flex items-center gap-4">
-            <Link href="/contact" className={`${buttonClasses} text-[10px] sm:text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest transition-colors shadow-lg`}>
+            <Link href="/contact" className={`${buttonClasses} text-[10px] font-bold px-5 py-2 rounded-full uppercase tracking-widest transition-colors shadow-md`}>
               Hire Me
             </Link>
             <button
-              className={`md:hidden relative z-50 p-2 ${textColor}`}
+              className={`md:hidden relative z-50 p-1.5 ${textColor}`}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>

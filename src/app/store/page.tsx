@@ -1,4 +1,3 @@
-import { MagneticButton } from "@/components/ui/magnetic-button";
 
 export default function StorePage() {
   return (
