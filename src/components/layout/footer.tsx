@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Link from "next/link";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, Variants } from "framer-motion";
 import { FaYoutube, FaInstagram, FaTelegram, FaDiscord } from "react-icons/fa6";
 
 export function Footer() {
@@ -24,7 +24,7 @@ export function Footer() {
   // Only trigger when the footer is actually visible
   const isInView = useInView(containerRef, { once: true, margin: "-10%" });
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
@@ -32,7 +32,7 @@ export function Footer() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 80 },
     visible: { 
       opacity: 1, 
@@ -41,7 +41,7 @@ export function Footer() {
     }
   };
 
-  const iconVariants = {
+  const iconVariants: Variants = {
     hidden: { opacity: 0, scale: 0, rotate: -20 },
     visible: { 
       opacity: 1, 
