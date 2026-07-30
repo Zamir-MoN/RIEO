@@ -36,7 +36,7 @@ export function ProductForm({ products }: { products: any[] }) {
             <input name="title" required className="w-full bg-[#111] border border-white/10 p-2 rounded text-white" />
           </div>
           <div>
-            <label className="text-sm text-gray-400 mb-1 block">Price (e.g. $49)</label>
+            <label className="text-sm text-gray-400 mb-1 block">Price (e.g. ₹3999)</label>
             <input name="price" required className="w-full bg-[#111] border border-white/10 p-2 rounded text-white" />
           </div>
           <div>
@@ -64,7 +64,7 @@ export function ProductForm({ products }: { products: any[] }) {
           {products.map((product) => (
             <div key={product.id} className="bg-[#0A0A0A] p-4 rounded-xl border border-white/10 flex justify-between items-center">
               <div>
-                <h3 className="font-bold">{product.title} <span className="text-gray-500 font-normal ml-2">{product.price}</span></h3>
+                <h3 className="font-bold">{product.title} <span className="text-gray-500 font-normal ml-2">{product.price.replace('$', '₹')}</span></h3>
                 <p className="text-sm text-gray-400">{product.category} • {product.videoUrl}</p>
               </div>
               <button 
