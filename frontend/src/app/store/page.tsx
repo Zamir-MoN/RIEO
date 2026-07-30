@@ -4,15 +4,15 @@ import SearchInput from "@/components/SearchInput";
 
 export const dynamic = "force-dynamic";
 
-export default async function StorePage({
-  searchParams,
-}: {
-  searchParams: { q?: string };
+export default async function StorePage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const searchParams = await props.searchParams;
+  
   const result = await getProducts();
   let products = result.success ? result.products : [];
 
-  const query = searchParams?.q?.toLowerCase() || "";
+  const query = typeof searchParams?.q === "string" ? searchParams.q.toLowerCase() : "";
 
   if (query) {
     products = products.filter((product: any) => 
