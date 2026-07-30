@@ -47,11 +47,11 @@ export default async function StorePage(props: {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
           {products.map((product: any) => (
             <div key={product.id} className="group relative rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/5 hover:border-white/20 transition-all duration-500 cursor-pointer shadow-2xl">
               {/* Video Background */}
-              <div className="relative w-full aspect-[4/3] sm:aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-[#050505]">
+              <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#050505]">
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500 z-10" />
                 <video
                   autoPlay
