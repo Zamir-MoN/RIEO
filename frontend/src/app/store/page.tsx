@@ -1,5 +1,7 @@
 import { getProducts } from "@/actions/product";
 
+import Link from "next/link";
+
 export const dynamic = "force-dynamic";
 
 export default async function StorePage() {
@@ -13,6 +15,10 @@ export default async function StorePage() {
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 lg:mb-24 gap-8 relative z-10">
           <div>
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 text-sm uppercase tracking-widest font-bold">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+              Back to Home
+            </Link>
             <h1 className="text-5xl sm:text-6xl md:text-8xl font-heading font-bold uppercase tracking-tight">
               Digital <br className="md:hidden" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white">Store</span>
@@ -20,6 +26,13 @@ export default async function StorePage() {
             <p className="mt-6 text-sm sm:text-base text-gray-400 uppercase tracking-widest">
               Premium tools for creators.
             </p>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 px-6 py-3 rounded-full transition-all backdrop-blur-sm group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:text-white transition-colors"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span className="text-sm font-bold tracking-widest uppercase">Search</span>
+            </button>
           </div>
         </div>
 
