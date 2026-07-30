@@ -78,7 +78,7 @@ export default async function StorePage(props: {
                     {product.title}
                   </h3>
                   <div className="bg-white/5 px-4 py-2 rounded-lg border border-white/10 shrink-0 flex items-center justify-center">
-                    <span className="text-white text-lg font-bold tracking-wider">{product.price.replace('$', '₹')}</span>
+                    <span className="text-white text-lg font-bold tracking-wider">₹{product.price.replace(/^[^0-9]+/, '')}</span>
                   </div>
                 </div>
                 <button className="w-full py-4 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn">

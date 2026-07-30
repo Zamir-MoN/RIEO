@@ -64,7 +64,7 @@ export function ProductForm({ products }: { products: any[] }) {
           {products.map((product) => (
             <div key={product.id} className="bg-[#0A0A0A] p-4 rounded-xl border border-white/10 flex justify-between items-center">
               <div>
-                <h3 className="font-bold">{product.title} <span className="text-gray-500 font-normal ml-2">{product.price.replace('$', '₹')}</span></h3>
+                <h3 className="font-bold">{product.title} <span className="text-gray-500 font-normal ml-2">₹{product.price.replace(/^[^0-9]+/, '')}</span></h3>
                 <p className="text-sm text-gray-400">{product.category} • {product.videoUrl}</p>
               </div>
               <button 
