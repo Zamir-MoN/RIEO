@@ -1,0 +1,41 @@
+"use server";
+
+import { cookies } from "next/headers";
+import { signJwt } from "@/lib/auth";
+import { redirect } from "next/navigation";
+
+export async function login(prevState: any, formData: FormData) {
+  const username = formData.get("username") as string;
+  const password = formData.get("password") as string;
+
+  const validUsername = process.env.ADMIN_USERNAME;
+  const validPassword = process.env.ADMIN_PASSWORD;
+
+  if (!validUsername || !validPassword) {
+    return { error: "Admin credentials are not configured on the server." };
+  }
+
+  if (username === validUsername && password === validPassword) {
+    const token = await signJwt({ username, role: "admin" });
+    
+    // Set HTTP-only cookie
+    const cookieStore = await cookies();
+    cookieStore.set("admin_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24, // 24 hours
+    });
+
+    redirect("/admin");
+  } else {
+    return { error: "Invalid username or password" };
+  }
+}
+
+export async function logout() {
+  const cookieStore = await cookies();
+  cookieStore.delete("admin_token");
+  redirect("/login");
+}

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { logout } from "@/actions/auth";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard - RIEO",
@@ -14,6 +15,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <h1 className="text-3xl font-heading font-bold uppercase tracking-widest text-white">Admin Dashboard</h1>
             <p className="text-gray-400 mt-2">Manage your digital store products.</p>
           </div>
+          <form action={logout}>
+            <button type="submit" className="text-sm bg-red-500/10 text-red-500 hover:bg-red-500/20 px-4 py-2 rounded-lg transition-colors border border-red-500/20">
+              Logout
+            </button>
+          </form>
         </header>
         <main>{children}</main>
       </div>
