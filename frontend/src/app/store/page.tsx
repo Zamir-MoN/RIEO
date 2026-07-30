@@ -72,19 +72,22 @@ export default async function StorePage(props: {
               </div>
 
               {/* Card Content */}
-              <div className="p-6 sm:p-8 flex justify-between items-end relative z-20">
-                <div>
-                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold font-heading text-white group-hover:text-gray-200 transition-colors mb-2 pr-4">
+              <div className="p-6 sm:p-8 flex flex-col gap-6 relative z-20">
+                <div className="flex justify-between items-start gap-4">
+                  <h3 className="text-xl sm:text-2xl font-bold font-heading text-white group-hover:text-gray-200 transition-colors leading-tight">
                     {product.title}
                   </h3>
-                  <p className="text-gray-400 text-sm font-bold">{product.price}</p>
+                  <div className="bg-white/5 px-4 py-2 rounded-lg border border-white/10 shrink-0 flex items-center justify-center">
+                    <span className="text-white text-lg font-bold tracking-wider">{product.price}</span>
+                  </div>
                 </div>
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300 shrink-0">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <button className="w-full py-4 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn">
+                  <span>Buy Now</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
-                </div>
+                </button>
               </div>
             </div>
           ))}
