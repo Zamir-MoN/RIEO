@@ -128,7 +128,7 @@ export function ProductForm({ products }: { products: any[] }) {
           <div className="flex flex-col gap-4">
             {products.map((product) => (
               <div key={product.id} className="bg-[#111] p-5 rounded-xl border border-white/5 hover:border-white/10 transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1">
                     <h3 className="font-bold text-lg text-white">{product.title}</h3>
                     <span className="bg-white/10 text-white text-xs px-2 py-0.5 rounded-full font-bold">₹{product.price.replace(/^[^0-9]+/, '')}</span>
@@ -137,9 +137,9 @@ export function ProductForm({ products }: { products: any[] }) {
                     <span className="uppercase tracking-widest text-xs font-bold text-gray-500">{product.category}</span>
                     {product.description && <span className="ml-2 border-l border-gray-700 pl-2">{product.description}</span>}
                   </p>
-                  <div className="flex flex-wrap gap-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                    <span className="bg-black/50 px-2 py-1 rounded">VID: {product.videoUrl}</span>
-                    {product.buyUrl && <span className="bg-blue-500/10 text-blue-400 px-2 py-1 rounded">LINK: {product.buyUrl.substring(0, 30)}{product.buyUrl.length > 30 ? '...' : ''}</span>}
+                  <div className="flex flex-col gap-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold w-full max-w-full overflow-hidden">
+                    <span className="bg-black/50 px-2 py-1 rounded truncate block max-w-full" title={product.videoUrl}>VID: {product.videoUrl}</span>
+                    {product.buyUrl && <span className="bg-blue-500/10 text-blue-400 px-2 py-1 rounded truncate block max-w-full" title={product.buyUrl}>LINK: {product.buyUrl}</span>}
                   </div>
                 </div>
                 <div className="flex gap-2 w-full sm:w-auto">
