@@ -22,7 +22,7 @@ export async function login(prevState: any, formData: FormData) {
     const cookieStore = await cookies();
     cookieStore.set("admin_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false, // Set to false to allow login over HTTP (IP address)
       sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24, // 24 hours
