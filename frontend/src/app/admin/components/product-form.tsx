@@ -67,9 +67,9 @@ export function ProductForm({ products }: { products: any[] }) {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
       {/* Form Sidebar */}
-      <div className="lg:col-span-4 bg-[#0A0A0A] p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl h-fit sticky top-8">
+      <div className="lg:col-span-4 bg-[#0A0A0A] p-5 sm:p-8 rounded-2xl border border-white/10 shadow-2xl h-fit lg:sticky lg:top-8 order-1">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold font-heading uppercase tracking-widest text-white">
             {editingId ? "Edit Product" : "Add Product"}
@@ -122,8 +122,8 @@ export function ProductForm({ products }: { products: any[] }) {
       </div>
 
       {/* Product List */}
-      <div className="lg:col-span-8">
-        <div className="bg-[#0A0A0A] p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl">
+      <div className="lg:col-span-8 order-2">
+        <div className="bg-[#0A0A0A] p-5 sm:p-8 rounded-2xl border border-white/10 shadow-2xl">
           <h2 className="text-2xl font-bold font-heading uppercase tracking-widest text-white mb-6">Manage Products</h2>
           <div className="flex flex-col gap-4">
             {products.map((product) => (
