@@ -1,5 +1,11 @@
+import { getProducts } from "@/actions/product";
 
-export default function StorePage() {
+export const dynamic = "force-dynamic";
+
+export default async function StorePage() {
+  const result = await getProducts();
+  const products = result.success ? result.products : [];
+
   return (
     <div className="flex flex-col min-h-screen pt-32 pb-24 bg-[#050505] text-white">
       <div className="max-w-7xl mx-auto px-4 w-full relative z-10">
@@ -18,21 +24,8 @@ export default function StorePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 relative z-10">
-          {[
-            {
-              title: "Cinematic LUTs Pack Vol. 1",
-              price: "$49",
-              video: "/hero-bg-2.mp4",
-              category: "Color Grading",
-            },
-            {
-              title: "Dynamic Transitions Bundle",
-              price: "$39",
-              video: "/hero-bg.mp4",
-              category: "Motion Graphics",
-            }
-          ].map((product, i) => (
-            <div key={i} className="group relative rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/5 hover:border-white/20 transition-all duration-500 cursor-pointer shadow-2xl">
+          {products.map((product: any) => (
+            <div key={product.id} className="group relative rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/5 hover:border-white/20 transition-all duration-500 cursor-pointer shadow-2xl">
               {/* Video Background */}
               <div className="relative w-full aspect-video sm:aspect-[4/3] md:aspect-video overflow-hidden bg-[#050505]">
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500 z-10" />
@@ -43,7 +36,7 @@ export default function StorePage() {
                   playsInline
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
                 >
-                  <source src={product.video} type="video/mp4" />
+                  <source src={product.videoUrl} type="video/mp4" />
                 </video>
                 
                 {/* Category Badge */}

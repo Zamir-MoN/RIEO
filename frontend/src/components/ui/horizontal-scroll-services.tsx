@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 import Image from "next/image";
 
+
 const services = [
   {
     id: "01",
@@ -70,17 +71,17 @@ export function HorizontalScrollServices() {
         {/* Header Section */}
         <div className="w-full px-6 md:px-12 xl:px-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 shrink-0">
           <div className="flex-1">
-            <h2 className="relative inline-block text-4xl md:text-5xl lg:text-6xl font-sans font-bold tracking-tight leading-tight mb-2">
-              <div className="absolute -top-5 -left-2 md:-top-8 md:-left-10 -rotate-12 z-10 pointer-events-none" style={{ filter: "drop-shadow(0 0 10px rgba(0,255,65,0.5))" }}>
-                <span className="inline-block border-2 md:border-[3px] border-[#00FF41] text-[#00FF41] text-[10px] md:text-xl font-bold px-2 py-0.5 md:px-4 md:py-1.5 rounded-sm md:rounded-md uppercase tracking-widest bg-[#050505]/50 backdrop-blur-sm">
-                  Selected
+            <h2 className="relative inline-block text-6xl md:text-7xl lg:text-8xl font-sans font-bold tracking-tight leading-tight mb-2 ml-4 md:ml-8 mt-6 md:mt-10">
+              <div className="absolute -top-10 -left-4 md:-top-16 md:-left-8 lg:-top-16 lg:-left-12 -rotate-12 z-10 pointer-events-none">
+                <span className="inline-block text-[#00FF41] text-2xl md:text-4xl lg:text-5xl px-2 py-0.5 tracking-widest font-algeon">
+                  Featured
                 </span>
               </div>
-              Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-white">Works</span>
+              Work
             </h2>
           </div>
           <p className="text-gray-400 text-sm md:text-base max-w-[320px] leading-relaxed pb-2">
-            The process behind the pixels. Over the years, we&apos;ve helped brands turn their concepts into highly polished, cinematic experiences. Here is a look at some of that work.
+            The process behind the pixels. Turning concepts into highly polished, cinematic experiences.
           </p>
         </div>
 

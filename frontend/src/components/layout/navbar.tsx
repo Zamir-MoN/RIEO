@@ -57,6 +57,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
+                prefetch={true}
                 className={`text-sm font-bold ${textColor} ${hoverTextColor} transition-colors uppercase tracking-widest relative group`}
               >
                 {link.name}
@@ -68,7 +69,7 @@ export function Navbar() {
 
           {/* Hire Me & Mobile Toggle */}
           <div className="flex items-center gap-4">
-            <Link href="/contact" className={`${buttonClasses} text-[10px] font-bold px-5 py-2 rounded-full uppercase tracking-widest transition-colors shadow-md`}>
+            <Link prefetch={true} href="/contact" className={`${buttonClasses} text-[10px] font-bold px-5 py-2 rounded-full uppercase tracking-widest transition-colors shadow-md`}>
               Hire Me
             </Link>
             <button
@@ -98,6 +99,7 @@ export function Navbar() {
             >
               <Link
                 href={link.href}
+                prefetch={true}
                 className="text-3xl font-heading font-bold uppercase tracking-widest text-[var(--color-text-primary)] hover:text-[var(--color-accent-primary)] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
