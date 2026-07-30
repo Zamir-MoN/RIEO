@@ -26,8 +26,8 @@ app.get('/api/products', async (req, res) => {
 app.post('/api/products', async (req, res) => {
   try {
     const { title, price, videoUrl, category, description, buyUrl, thumbnailUrl } = req.body;
-    if (!title || !price || !videoUrl || !category) {
-      return res.status(400).json({ success: false, error: 'Title, price, videoUrl, and category are required' });
+    if (!title || !price || !category) {
+      return res.status(400).json({ success: false, error: 'Title, price, and category are required' });
     }
     const product = await prisma.product.create({
       data: { title, price, videoUrl, category, description, buyUrl, thumbnailUrl }
