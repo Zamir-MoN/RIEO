@@ -25,12 +25,12 @@ app.get('/api/products', async (req, res) => {
 // Create product
 app.post('/api/products', async (req, res) => {
   try {
-    const { title, price, videoUrl, category, description, buyUrl } = req.body;
+    const { title, price, videoUrl, category, description, buyUrl, thumbnailUrl } = req.body;
     if (!title || !price || !videoUrl || !category) {
       return res.status(400).json({ success: false, error: 'Title, price, videoUrl, and category are required' });
     }
     const product = await prisma.product.create({
-      data: { title, price, videoUrl, category, description, buyUrl }
+      data: { title, price, videoUrl, category, description, buyUrl, thumbnailUrl }
     });
     res.json({ success: true, product });
   } catch (error) {
@@ -43,10 +43,10 @@ app.post('/api/products', async (req, res) => {
 app.put('/api/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, price, videoUrl, category, description, buyUrl } = req.body;
+    const { title, price, videoUrl, category, description, buyUrl, thumbnailUrl } = req.body;
     const product = await prisma.product.update({
       where: { id },
-      data: { title, price, videoUrl, category, description, buyUrl }
+      data: { title, price, videoUrl, category, description, buyUrl, thumbnailUrl }
     });
     res.json({ success: true, product });
   } catch (error) {

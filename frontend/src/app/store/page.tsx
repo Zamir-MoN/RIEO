@@ -53,15 +53,23 @@ export default async function StorePage(props: {
               {/* Video Background */}
               <div className="relative w-full aspect-[4/5] overflow-hidden bg-[#050505]">
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500 z-10" />
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
-                >
-                  <source src={product.videoUrl} type="video/mp4" />
-                </video>
+                {product.thumbnailUrl ? (
+                  <img
+                    src={product.thumbnailUrl}
+                    alt={product.title}
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
+                  />
+                ) : product.videoUrl ? (
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
+                  >
+                    <source src={product.videoUrl} type="video/mp4" />
+                  </video>
+                ) : null}
                 
                 {/* Category Badge */}
                 <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">

@@ -15,6 +15,7 @@ export function ProductForm({ products }: { products: any[] }) {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [buyUrl, setBuyUrl] = useState("");
+  const [thumbnailUrl, setThumbnailUrl] = useState("");
 
   function startEditing(product: any) {
     setEditingId(product.id);
@@ -24,6 +25,7 @@ export function ProductForm({ products }: { products: any[] }) {
     setCategory(product.category);
     setDescription(product.description || "");
     setBuyUrl(product.buyUrl || "");
+    setThumbnailUrl(product.thumbnailUrl || "");
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -35,6 +37,7 @@ export function ProductForm({ products }: { products: any[] }) {
     setCategory("");
     setDescription("");
     setBuyUrl("");
+    setThumbnailUrl("");
     setError(null);
   }
 
@@ -50,6 +53,7 @@ export function ProductForm({ products }: { products: any[] }) {
     formData.append("category", category);
     formData.append("description", description);
     formData.append("buyUrl", buyUrl);
+    formData.append("thumbnailUrl", thumbnailUrl);
 
     let result;
     if (editingId) {
@@ -99,8 +103,13 @@ export function ProductForm({ products }: { products: any[] }) {
             </div>
           </div>
           <div>
-            <label className="text-xs text-gray-400 mb-1.5 block uppercase tracking-widest font-bold">Video URL</label>
-            <input value={videoUrl} onChange={e => setVideoUrl(e.target.value)} required className="w-full bg-[#111] border border-white/10 p-3 rounded-lg text-white focus:outline-none focus:border-white/30 transition-colors" placeholder="/hero-bg.mp4" />
+            <label className="text-xs text-gray-400 mb-1.5 block uppercase tracking-widest font-bold">Thumbnail URL (Optional)</label>
+            <input value={thumbnailUrl} onChange={e => setThumbnailUrl(e.target.value)} className="w-full bg-[#111] border border-white/10 p-3 rounded-lg text-white focus:outline-none focus:border-white/30 transition-colors" placeholder="https://..." />
+            <p className="text-[10px] text-gray-500 mt-1">Image URL for the store card (overrides video)</p>
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-1.5 block uppercase tracking-widest font-bold">Video URL (Optional)</label>
+            <input value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="w-full bg-[#111] border border-white/10 p-3 rounded-lg text-white focus:outline-none focus:border-white/30 transition-colors" placeholder="/hero-bg.mp4" />
           </div>
           <div>
             <label className="text-xs text-gray-400 mb-1.5 block uppercase tracking-widest font-bold">Description (Optional)</label>
@@ -128,18 +137,27 @@ export function ProductForm({ products }: { products: any[] }) {
           <div className="flex flex-col gap-4">
             {products.map((product) => (
               <div key={product.id} className="bg-[#111] p-5 rounded-xl border border-white/5 hover:border-white/10 transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-bold text-lg text-white">{product.title}</h3>
-                    <span className="bg-white/10 text-white text-xs px-2 py-0.5 rounded-full font-bold">₹{product.price.replace(/^[^0-9]+/, '')}</span>
-                  </div>
-                  <p className="text-sm text-gray-400 mb-2">
-                    <span className="uppercase tracking-widest text-xs font-bold text-gray-500">{product.category}</span>
-                    {product.description && <span className="ml-2 border-l border-gray-700 pl-2">{product.description}</span>}
-                  </p>
-                  <div className="mt-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold w-full overflow-hidden space-y-2">
-                    <div className="bg-black/50 px-2 py-1.5 rounded truncate" title={product.videoUrl}>VID: {product.videoUrl}</div>
-                    {product.buyUrl && <div className="bg-blue-500/10 text-blue-400 px-2 py-1.5 rounded truncate" title={product.buyUrl}>LINK: {product.buyUrl}</div>}
+                <div className="flex flex-1 min-w-0 gap-4">
+                  {/* Thumbnail Preview */}
+                  {product.thumbnailUrl && (
+                    <div className="hidden sm:block w-20 h-20 shrink-0 rounded-lg bg-black overflow-hidden border border-white/10">
+                      <img src={product.thumbnailUrl} alt={product.title} className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-1">
+                      <h3 className="font-bold text-lg text-white">{product.title}</h3>
+                      <span className="bg-white/10 text-white text-xs px-2 py-0.5 rounded-full font-bold">₹{product.price.replace(/^[^0-9]+/, '')}</span>
+                    </div>
+                    <p className="text-sm text-gray-400 mb-2">
+                      <span className="uppercase tracking-widest text-xs font-bold text-gray-500">{product.category}</span>
+                      {product.description && <span className="ml-2 border-l border-gray-700 pl-2">{product.description}</span>}
+                    </p>
+                    <div className="mt-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold w-full overflow-hidden space-y-2">
+                      {product.videoUrl && <div className="bg-black/50 px-2 py-1.5 rounded truncate" title={product.videoUrl}>VID: {product.videoUrl}</div>}
+                      {product.buyUrl && <div className="bg-blue-500/10 text-blue-400 px-2 py-1.5 rounded truncate" title={product.buyUrl}>LINK: {product.buyUrl}</div>}
+                      {product.thumbnailUrl && <div className="bg-purple-500/10 text-purple-400 px-2 py-1.5 rounded truncate sm:hidden" title={product.thumbnailUrl}>IMG: {product.thumbnailUrl}</div>}
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-2 w-full sm:w-auto">

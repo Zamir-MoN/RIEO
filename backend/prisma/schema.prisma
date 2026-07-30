@@ -15,5 +15,6 @@ model Product {
   category    String
   description String?
   buyUrl      String?
+  thumbnailUrl String?
   createdAt   DateTime @default(now())
 }
