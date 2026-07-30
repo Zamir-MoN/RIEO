@@ -27,8 +27,8 @@ const algeon = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Premium Video Editor Portfolio",
-  description: "High-end professional video editor portfolio and digital store.",
+  title: "RIEO",
+  description: "Showcasing high-end video editing and commercial projects.",
 };
 
 export default function RootLayout({
