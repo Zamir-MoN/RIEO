@@ -25,17 +25,33 @@ app.get('/api/products', async (req, res) => {
 // Create product
 app.post('/api/products', async (req, res) => {
   try {
-    const { title, price, videoUrl, category } = req.body;
+    const { title, price, videoUrl, category, description, buyUrl } = req.body;
     if (!title || !price || !videoUrl || !category) {
-      return res.status(400).json({ success: false, error: 'All fields are required' });
+      return res.status(400).json({ success: false, error: 'Title, price, videoUrl, and category are required' });
     }
     const product = await prisma.product.create({
-      data: { title, price, videoUrl, category }
+      data: { title, price, videoUrl, category, description, buyUrl }
     });
     res.json({ success: true, product });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: 'Failed to create product' });
+  }
+});
+
+// Update product
+app.put('/api/products/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, price, videoUrl, category, description, buyUrl } = req.body;
+    const product = await prisma.product.update({
+      where: { id },
+      data: { title, price, videoUrl, category, description, buyUrl }
+    });
+    res.json({ success: true, product });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Failed to update product' });
   }
 });
 

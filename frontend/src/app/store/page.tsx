@@ -72,22 +72,45 @@ export default async function StorePage(props: {
               </div>
 
               {/* Card Content */}
-              <div className="p-6 sm:p-8 flex flex-col gap-6 relative z-20">
+              <div className="p-6 sm:p-8 flex flex-col gap-4 relative z-20 h-full justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent">
                 <div className="flex justify-between items-start gap-4">
-                  <h3 className="text-xl sm:text-2xl font-bold font-heading text-white group-hover:text-gray-200 transition-colors leading-tight">
-                    {product.title}
-                  </h3>
-                  <div className="bg-white/5 px-4 py-2 rounded-lg border border-white/10 shrink-0 flex items-center justify-center">
-                    <span className="text-white text-lg font-bold tracking-wider">₹{product.price.replace(/^[^0-9]+/, '')}</span>
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-bold font-heading text-white group-hover:text-gray-200 transition-colors leading-tight mb-2">
+                      {product.title}
+                    </h3>
+                    {product.description && (
+                      <p className="text-sm text-gray-300 line-clamp-2">
+                        {product.description}
+                      </p>
+                    )}
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/20 shrink-0 flex items-center justify-center shadow-xl">
+                    <span className="text-white text-base font-bold tracking-wider">₹{product.price.replace(/^[^0-9]+/, '')}</span>
                   </div>
                 </div>
-                <button className="w-full py-4 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                  <span>Buy Now</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </button>
+                
+                {product.buyUrl ? (
+                  <a 
+                    href={product.buyUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 mt-2 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+                  >
+                    <span>Buy Now</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                ) : (
+                  <button className="w-full py-3.5 mt-2 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn">
+                    <span>Buy Now</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           ))}

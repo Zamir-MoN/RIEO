@@ -23,11 +23,13 @@ export async function createProduct(formData: FormData) {
     const price = formData.get("price") as string;
     const videoUrl = formData.get("videoUrl") as string;
     const category = formData.get("category") as string;
+    const description = formData.get("description") as string;
+    const buyUrl = formData.get("buyUrl") as string;
 
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, price, videoUrl, category }),
+      body: JSON.stringify({ title, price, videoUrl, category, description, buyUrl }),
     });
 
     if (!res.ok) throw new Error("Failed to create product");
@@ -38,6 +40,32 @@ export async function createProduct(formData: FormData) {
   } catch (error) {
     console.error("Error creating product:", error);
     return { success: false, error: "Failed to create product" };
+  }
+}
+
+export async function updateProduct(id: string, formData: FormData) {
+  try {
+    const title = formData.get("title") as string;
+    const price = formData.get("price") as string;
+    const videoUrl = formData.get("videoUrl") as string;
+    const category = formData.get("category") as string;
+    const description = formData.get("description") as string;
+    const buyUrl = formData.get("buyUrl") as string;
+
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, price, videoUrl, category, description, buyUrl }),
+    });
+
+    if (!res.ok) throw new Error("Failed to update product");
+    
+    revalidatePath("/store");
+    revalidatePath("/admin");
+    return await res.json();
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return { success: false, error: "Failed to update product" };
   }
 }
 
