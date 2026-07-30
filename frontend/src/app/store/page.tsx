@@ -23,7 +23,7 @@ export default async function StorePage(props: {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pt-32 pb-24 bg-[#050505] text-white">
+    <div className="flex flex-col min-h-screen pt-16 md:pt-32 pb-24 bg-[#050505] text-white">
       <div className="max-w-7xl mx-auto px-4 w-full relative z-10">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] bg-white/5 blur-[100px] sm:blur-[120px] rounded-full pointer-events-none" />
         
