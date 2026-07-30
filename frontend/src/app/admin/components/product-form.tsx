@@ -122,7 +122,7 @@ export function ProductForm({ products }: { products: any[] }) {
       </div>
 
       {/* Product List */}
-      <div className="lg:col-span-8 order-2">
+      <div className="lg:col-span-8 order-2 min-w-0">
         <div className="bg-[#0A0A0A] p-5 sm:p-8 rounded-2xl border border-white/10 shadow-2xl">
           <h2 className="text-2xl font-bold font-heading uppercase tracking-widest text-white mb-6">Manage Products</h2>
           <div className="flex flex-col gap-4">
@@ -137,9 +137,9 @@ export function ProductForm({ products }: { products: any[] }) {
                     <span className="uppercase tracking-widest text-xs font-bold text-gray-500">{product.category}</span>
                     {product.description && <span className="ml-2 border-l border-gray-700 pl-2">{product.description}</span>}
                   </p>
-                  <div className="flex flex-col gap-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold w-full max-w-full overflow-hidden">
-                    <span className="bg-black/50 px-2 py-1 rounded truncate block max-w-full" title={product.videoUrl}>VID: {product.videoUrl}</span>
-                    {product.buyUrl && <span className="bg-blue-500/10 text-blue-400 px-2 py-1 rounded truncate block max-w-full" title={product.buyUrl}>LINK: {product.buyUrl}</span>}
+                  <div className="mt-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold w-full overflow-hidden space-y-2">
+                    <div className="bg-black/50 px-2 py-1.5 rounded truncate" title={product.videoUrl}>VID: {product.videoUrl}</div>
+                    {product.buyUrl && <div className="bg-blue-500/10 text-blue-400 px-2 py-1.5 rounded truncate" title={product.buyUrl}>LINK: {product.buyUrl}</div>}
                   </div>
                 </div>
                 <div className="flex gap-2 w-full sm:w-auto">
