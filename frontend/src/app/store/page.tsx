@@ -1,12 +1,26 @@
 import { getProducts } from "@/actions/product";
-
 import Link from "next/link";
+import SearchInput from "@/components/SearchInput";
 
 export const dynamic = "force-dynamic";
 
-export default async function StorePage() {
+export default async function StorePage({
+  searchParams,
+}: {
+  searchParams: { q?: string };
+}) {
   const result = await getProducts();
-  const products = result.success ? result.products : [];
+  let products = result.success ? result.products : [];
+
+  const query = searchParams?.q?.toLowerCase() || "";
+
+  if (query) {
+    products = products.filter((product: any) => 
+      product.title.toLowerCase().includes(query) || 
+      product.category.toLowerCase().includes(query) ||
+      (product.description && product.description.toLowerCase().includes(query))
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen pt-32 pb-24 bg-[#050505] text-white">
@@ -28,11 +42,8 @@ export default async function StorePage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
-            <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 px-6 py-3 rounded-full transition-all backdrop-blur-sm group">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:text-white transition-colors"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <span className="text-sm font-bold tracking-widest uppercase">Search</span>
-            </button>
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <SearchInput />
           </div>
         </div>
 
