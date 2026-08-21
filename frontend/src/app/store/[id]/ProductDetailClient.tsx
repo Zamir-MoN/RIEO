@@ -28,8 +28,8 @@ export function ProductDetailClient({ product }: { product: any }) {
   const telegramUsername = "RIEOEDIT";
   const telegramMessage = `Hello! I want to buy:
 
-**\` ${product.title} \`**
-Price: **\` ₹${product.price.replace(/^[^0-9]+/, '')} \`**`;
+**${product.title}**
+Price: **₹${product.price.replace(/^[^0-9]+/, '')}**`;
   const finalBuyUrl = product.buyUrl || `https://t.me/${telegramUsername}?text=${encodeURIComponent(telegramMessage)}`;
 
   return (
