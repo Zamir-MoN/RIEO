@@ -54,6 +54,7 @@ export function StoreCard({ product }: { product: any }) {
               loop
               muted
               playsInline
+              poster={product.thumbnailUrl || undefined}
               className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
             >
               <source src={videoSrcUrl} type="video/mp4" />

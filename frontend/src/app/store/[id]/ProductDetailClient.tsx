@@ -66,6 +66,7 @@ export function ProductDetailClient({ product }: { product: any }) {
                 muted
                 playsInline
                 controls
+                poster={product.thumbnailUrl || undefined}
                 className="w-full h-full object-cover scale-105"
               >
                 <source src={videoSrcUrl} type="video/mp4" />
