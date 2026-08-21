@@ -10,6 +10,12 @@ export function StoreCard({ product }: { product: any }) {
     ? (product.videoUrl.split('?')[0].replace(/\/$/, '') + '/embed') 
     : '';
 
+  const isGoogleDrive = product.videoUrl?.includes('drive.google.com');
+  const googleDriveIdMatch = product.videoUrl?.match(/\/d\/([a-zA-Z0-9_-]+)/) || product.videoUrl?.match(/id=([a-zA-Z0-9_-]+)/);
+  const videoSrcUrl = isGoogleDrive && googleDriveIdMatch 
+    ? `https://drive.google.com/uc?export=download&id=${googleDriveIdMatch[1]}` 
+    : product.videoUrl;
+
   const handleCardClick = () => {
     router.push(`/store/${product.id}`);
   };
@@ -50,7 +56,7 @@ export function StoreCard({ product }: { product: any }) {
               playsInline
               className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
             >
-              <source src={product.videoUrl} type="video/mp4" />
+              <source src={videoSrcUrl} type="video/mp4" />
             </video>
           )
         ) : product.thumbnailUrl ? (

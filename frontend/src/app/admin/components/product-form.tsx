@@ -149,7 +149,7 @@ export function ProductForm({ products }: { products: any[] }) {
                       <h3 className="font-bold text-lg text-white">{product.title}</h3>
                       <span className="bg-white/10 text-white text-xs px-2 py-0.5 rounded-full font-bold">₹{product.price.replace(/^[^0-9]+/, '')}</span>
                     </div>
-                    <p className="text-sm text-gray-400 mb-2">
+                    <p className="text-sm text-gray-400 mb-2 line-clamp-2 break-words">
                       <span className="uppercase tracking-widest text-xs font-bold text-gray-500">{product.category}</span>
                       {product.description && <span className="ml-2 border-l border-gray-700 pl-2">{product.description}</span>}
                     </p>

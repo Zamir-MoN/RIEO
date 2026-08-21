@@ -19,6 +19,12 @@ export function ProductDetailClient({ product }: { product: any }) {
     ? (product.videoUrl.split('?')[0].replace(/\/$/, '') + '/embed') 
     : '';
 
+  const isGoogleDrive = product.videoUrl?.includes('drive.google.com');
+  const googleDriveIdMatch = product.videoUrl?.match(/\/d\/([a-zA-Z0-9_-]+)/) || product.videoUrl?.match(/id=([a-zA-Z0-9_-]+)/);
+  const videoSrcUrl = isGoogleDrive && googleDriveIdMatch 
+    ? `https://drive.google.com/uc?export=download&id=${googleDriveIdMatch[1]}` 
+    : product.videoUrl;
+
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-24 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
       
@@ -62,7 +68,7 @@ export function ProductDetailClient({ product }: { product: any }) {
                 controls
                 className="w-full h-full object-cover scale-105"
               >
-                <source src={product.videoUrl} type="video/mp4" />
+                <source src={videoSrcUrl} type="video/mp4" />
               </video>
             )
           ) : product.thumbnailUrl ? (
