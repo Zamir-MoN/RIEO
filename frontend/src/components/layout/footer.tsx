@@ -4,11 +4,15 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { motion, useInView, useScroll, useTransform, Variants } from "framer-motion";
 import { FaYoutube, FaInstagram, FaTelegram, FaDiscord } from "react-icons/fa6";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
   
-  // Track scroll progress for the curve animation
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  if (pathname.startsWith("/admin")) return null;
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "start center"]

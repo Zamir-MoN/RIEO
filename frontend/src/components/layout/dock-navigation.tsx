@@ -2,11 +2,14 @@
 
 import Dock from "@/components/ui/dock";
 import { Home, Briefcase, Video, ShoppingBag } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 export function DockNavigation() {
   const router = useRouter();
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/admin")) return null;
 
   const dockItems = [
     { icon: <Home size={18} />, label: 'Home', onClick: () => router.push('/#home') },
