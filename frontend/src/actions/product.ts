@@ -17,6 +17,17 @@ export async function getProducts() {
   }
 }
 
+export async function getProductById(id: string) {
+  try {
+    const res = await fetch(`${API_URL}/${id}`, { cache: "no-store" });
+    if (!res.ok) throw new Error("Failed to fetch product");
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return { success: false, error: "Failed to fetch product" };
+  }
+}
+
 export async function createProduct(formData: FormData) {
   try {
     const title = formData.get("title") as string;
