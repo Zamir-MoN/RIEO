@@ -47,10 +47,11 @@ export function ProductDetailClient({ product }: { product: any }) {
             isInstagram ? (
               <iframe 
                 src={instaEmbedUrl}
-                className="w-full h-full object-cover scale-[1.05]" 
+                className="w-full h-full object-cover rounded-[2rem]" 
                 frameBorder="0" 
                 scrolling="no" 
                 allowTransparency={true}
+                allow="encrypted-media"
               ></iframe>
             ) : (
               <video
@@ -58,6 +59,7 @@ export function ProductDetailClient({ product }: { product: any }) {
                 loop
                 muted
                 playsInline
+                controls
                 className="w-full h-full object-cover scale-105"
               >
                 <source src={product.videoUrl} type="video/mp4" />
@@ -127,9 +129,9 @@ export function ProductDetailClient({ product }: { product: any }) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
-                className="mb-10 text-gray-400 text-sm sm:text-base leading-relaxed"
+                className="mb-10 text-gray-300 text-sm sm:text-base leading-relaxed bg-white/[0.02] border border-white/[0.05] p-6 rounded-2xl backdrop-blur-sm shadow-inner"
               >
-                <p>{product.description}</p>
+                <p className="break-words whitespace-pre-wrap">{product.description}</p>
               </motion.div>
             )}
 
