@@ -21,8 +21,11 @@ export function StoreCard({ product }: { product: any }) {
   };
 
   const telegramUsername = "RIEOEDIT";
-  const textMessage = encodeURIComponent(`Hello, I want to buy "${product.title}" for ₹${product.price.replace(/^[^0-9]+/, '')}.`);
-  const finalBuyUrl = product.buyUrl || `https://t.me/${telegramUsername}?text=${textMessage}`;
+  const telegramMessage = `Hello! I want to buy:
+
+**\` ${product.title} \`**
+Price: **\` ₹${product.price.replace(/^[^0-9]+/, '')} \`**`;
+  const finalBuyUrl = product.buyUrl || `https://t.me/${telegramUsername}?text=${encodeURIComponent(telegramMessage)}`;
 
   return (
     <div 
