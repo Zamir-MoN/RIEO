@@ -20,14 +20,9 @@ export function StoreCard({ product }: { product: any }) {
     router.push(`/store/${product.id}`);
   };
 
-  const handleBuyClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!product.buyUrl) {
-      // If there is no buy url, standard behavior could just go to the detail page, 
-      // or open a modal. For now, just navigate to detail page.
-      router.push(`/store/${product.id}`);
-    }
-  };
+  const telegramUsername = "RIEOEDIT";
+  const textMessage = encodeURIComponent(`Hello, I want to buy "${product.title}" for ₹${product.price.replace(/^[^0-9]+/, '')}.`);
+  const finalBuyUrl = product.buyUrl || `https://t.me/${telegramUsername}?text=${textMessage}`;
 
   return (
     <div 
@@ -94,32 +89,19 @@ export function StoreCard({ product }: { product: any }) {
           </div>
         </div>
         
-        {product.buyUrl ? (
-          <a 
-            href={product.buyUrl} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            onClick={handleBuyClick}
-            className="w-full py-3 mt-1 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
-          >
-            <span>Buy Now</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-        ) : (
-          <button 
-            onClick={handleBuyClick}
-            className="w-full py-3 mt-1 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
-          >
-            <span>Buy Now</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </button>
-        )}
+        <a 
+          href={finalBuyUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="w-full py-3 mt-1 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+        >
+          <span>Buy Now</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
       </div>
     </div>
   );

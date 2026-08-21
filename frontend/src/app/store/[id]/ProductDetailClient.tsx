@@ -25,6 +25,10 @@ export function ProductDetailClient({ product }: { product: any }) {
     ? `https://drive.google.com/uc?export=download&id=${googleDriveIdMatch[1]}` 
     : product.videoUrl;
 
+  const telegramUsername = "RIEOEDIT";
+  const textMessage = encodeURIComponent(`Hello, I want to buy "${product.title}" for ₹${product.price.replace(/^[^0-9]+/, '')}.`);
+  const finalBuyUrl = product.buyUrl || `https://t.me/${telegramUsername}?text=${textMessage}`;
+
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-24 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
       
@@ -149,24 +153,18 @@ export function ProductDetailClient({ product }: { product: any }) {
               transition={{ delay: 0.7, duration: 0.6 }}
               className="pt-4 border-t border-white/5"
             >
-              {product.buyUrl ? (
-                <a 
-                  href={product.buyUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="group relative inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-xl overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-white/10"
-                >
-                  <div className="absolute inset-0 w-full h-full bg-gray-200 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out" />
-                  <span className="relative z-10 flex items-center gap-3">
-                    Purchase Now
-                    <ExternalLink size={16} className="transform group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </a>
-              ) : (
-                <button className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-white/10 text-gray-400 font-bold uppercase tracking-widest text-xs rounded-xl cursor-not-allowed border border-white/5">
-                  Currently Unavailable
-                </button>
-              )}
+              <a 
+                href={finalBuyUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-xl overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-white/10"
+              >
+                <div className="absolute inset-0 w-full h-full bg-gray-200 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out" />
+                <span className="relative z-10 flex items-center gap-3">
+                  Purchase Now
+                  <ExternalLink size={16} className="transform group-hover:translate-x-1 transition-transform" />
+                </span>
+              </a>
             </motion.div>
           </div>
         </motion.div>
