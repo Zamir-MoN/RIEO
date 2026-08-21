@@ -2,9 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL 
-  ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products` 
-  : "http://localhost:5145/api/products";
+// Server Actions run on the Node.js server itself. 
+// We use 127.0.0.1 to avoid public IP hairpin NAT routing issues on VPS platforms like AWS.
+const API_URL = "http://127.0.0.1:5145/api/products";
 
 export async function getProducts() {
   try {
@@ -33,14 +33,18 @@ export async function createProduct(formData: FormData) {
       body: JSON.stringify({ title, price, videoUrl, category, description, buyUrl, thumbnailUrl }),
     });
 
-    if (!res.ok) throw new Error("Failed to create product");
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error("Backend error:", errText);
+      throw new Error(`Failed to create product: ${errText}`);
+    }
     
     revalidatePath("/store");
     revalidatePath("/admin");
     return await res.json();
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating product:", error);
-    return { success: false, error: "Failed to create product" };
+    return { success: false, error: error.message || "Failed to create product" };
   }
 }
 
