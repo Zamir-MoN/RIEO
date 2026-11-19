@@ -13,6 +13,6 @@ echo same Wi-Fi network as this PC.
 echo.
 echo Starting server...
 echo ====================================================
-cd /d "%~dp0frontend"
+cd /d "%~dp0"
 call npm run dev
 pause
