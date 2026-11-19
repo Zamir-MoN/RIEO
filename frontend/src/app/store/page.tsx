@@ -24,13 +24,13 @@ export default async function StorePage(props: {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pt-16 md:pt-32 pb-24 bg-[#050505] text-white">
+    <div className="flex flex-col min-h-screen pt-[max(4rem,calc(env(safe-area-inset-top,0px)+2rem))] md:pt-32 pb-[max(6rem,calc(env(safe-area-inset-bottom,0px)+4rem))] bg-[#050505] text-white">
       <div className="max-w-7xl mx-auto px-4 w-full relative z-10">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] bg-white/5 blur-[100px] sm:blur-[120px] rounded-full pointer-events-none" />
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 lg:mb-24 gap-8 relative z-10">
           <div>
-            <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 text-sm uppercase tracking-widest font-bold">
+            <Link href="/" prefetch={true} className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 text-sm uppercase tracking-widest font-bold">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
               Back to Home
             </Link>

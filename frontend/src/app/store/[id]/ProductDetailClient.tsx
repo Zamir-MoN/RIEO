@@ -33,14 +33,14 @@ Price: **₹${product.price.replace(/^[^0-9]+/, '')}**`;
   const finalBuyUrl = product.buyUrl || `https://t.me/${telegramUsername}?text=${encodeURIComponent(telegramMessage)}`;
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-[#050505] text-white pt-[max(6rem,calc(env(safe-area-inset-top,0px)+3rem))] pb-[max(5rem,calc(env(safe-area-inset-bottom,0px)+3rem))] px-6 flex items-center justify-center relative overflow-hidden">
       
       {/* Background ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 blur-[120px] rounded-full pointer-events-none" />
 
-      {/* Back Button */}
-      <div className="absolute top-8 left-6 md:left-12 z-50">
-        <Link href="/store" className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-gray-300 hover:bg-white hover:text-black hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl">
+      {/* Back Button with Safe Area */}
+      <div className="absolute top-[max(2rem,env(safe-area-inset-top,1.5rem))] left-[max(1.5rem,env(safe-area-inset-left,1.5rem))] md:left-12 z-50">
+        <Link href="/store" prefetch={true} className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-gray-300 hover:bg-white hover:text-black hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl">
           <ArrowLeft size={20} />
         </Link>
       </div>

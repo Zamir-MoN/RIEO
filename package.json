@@ -1,17 +1,13 @@
 {
-  "name": "rieo-monorepo",
+  "name": "rieo",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "frontend",
-    "backend"
+    "frontend"
   ],
   "scripts": {
-    "dev": "npx concurrently \"npm run dev --workspace=frontend\" \"npm run start --workspace=backend\"",
+    "dev": "npm run dev --workspace=frontend",
     "build": "npm run build --workspace=frontend",
-    "start": "npx concurrently \"npm run start --workspace=frontend\" \"npm run start --workspace=backend\""
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
+    "start": "npm run start --workspace=frontend"
   }
 }

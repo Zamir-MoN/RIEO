@@ -8,11 +8,13 @@ export function DistortedHoverText({
   className = "",
   baseColor = "text-[#1A1A1A]",
   overlayColor = "text-[#FF0000]",
+  align = "left",
 }: {
   text: string;
   className?: string;
   baseColor?: string;
   overlayColor?: string;
+  align?: "left" | "center";
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const id = React.useId().replace(/:/g, "");
@@ -56,7 +58,7 @@ export function DistortedHoverText({
       
       {/* Overlay Text (Red, Custom Font) */}
       <motion.span 
-        className={`absolute inset-0 w-full h-full flex items-center justify-center font-algeon whitespace-nowrap origin-center ${overlayColor} pointer-events-none drop-shadow-md`}
+        className={`absolute inset-0 w-full h-full flex items-center ${align === "left" ? "justify-start origin-left" : "justify-center origin-center"} font-algeon whitespace-nowrap ${overlayColor} pointer-events-none drop-shadow-md`}
         initial="hidden"
         animate={isHovered ? "visible" : "hidden"}
         variants={{

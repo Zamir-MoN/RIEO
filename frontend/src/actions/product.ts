@@ -2,30 +2,52 @@
 
 import { revalidatePath } from "next/cache";
 
-// Server Actions run on the Node.js server itself. 
-// We use 127.0.0.1 to avoid public IP hairpin NAT routing issues on VPS platforms like AWS.
-const API_URL = "http://127.0.0.1:5145/api/products";
+export interface ProductItem {
+  id: string;
+  title: string;
+  price: string;
+  videoUrl: string;
+  category: string;
+  description?: string | null;
+  buyUrl?: string | null;
+  thumbnailUrl?: string | null;
+  createdAt: string;
+}
+
+// In-memory / static product list for standalone frontend operations
+const productsStore: ProductItem[] = [
+  {
+    id: "cms7e0z9100009eh1daz38nu7",
+    title: "Cinematic LUTs Pack Vol. 1",
+    price: "$49",
+    videoUrl: "/hero-bg-2.mp4",
+    category: "Color Grading",
+    description: "Handcrafted cinematic LUTs designed to give your footage a high-end film look instantly.",
+    buyUrl: null,
+    thumbnailUrl: null,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "cms7e0z9900019eh1ztwlqddb",
+    title: "Dynamic Transitions Bundle",
+    price: "$39",
+    videoUrl: "/hero-bg.mp4",
+    category: "Motion Graphics",
+    description: "Seamless drag-and-drop dynamic transitions for Premiere Pro, After Effects, and DaVinci Resolve.",
+    buyUrl: null,
+    thumbnailUrl: null,
+    createdAt: new Date().toISOString(),
+  },
+];
 
 export async function getProducts() {
-  try {
-    const res = await fetch(API_URL, { cache: "no-store" });
-    if (!res.ok) throw new Error("Failed to fetch");
-    return await res.json();
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return { success: false, error: "Failed to fetch products" };
-  }
+  return { success: true, products: productsStore };
 }
 
 export async function getProductById(id: string) {
-  try {
-    const res = await fetch(`${API_URL}/${id}`, { cache: "no-store" });
-    if (!res.ok) throw new Error("Failed to fetch product");
-    return await res.json();
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    return { success: false, error: "Failed to fetch product" };
-  }
+  const product = productsStore.find((p) => p.id === id);
+  if (!product) return { success: false, error: "Product not found" };
+  return { success: true, product };
 }
 
 export async function createProduct(formData: FormData) {
@@ -34,25 +56,27 @@ export async function createProduct(formData: FormData) {
     const price = formData.get("price") as string;
     const videoUrl = formData.get("videoUrl") as string;
     const category = formData.get("category") as string;
-    const description = formData.get("description") as string;
-    const buyUrl = formData.get("buyUrl") as string;
-    const thumbnailUrl = formData.get("thumbnailUrl") as string;
+    const description = (formData.get("description") as string) || null;
+    const buyUrl = (formData.get("buyUrl") as string) || null;
+    const thumbnailUrl = (formData.get("thumbnailUrl") as string) || null;
 
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, price, videoUrl, category, description, buyUrl, thumbnailUrl }),
-    });
+    const newProduct: ProductItem = {
+      id: "prod_" + Date.now(),
+      title,
+      price,
+      videoUrl,
+      category,
+      description,
+      buyUrl,
+      thumbnailUrl,
+      createdAt: new Date().toISOString(),
+    };
 
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error("Backend error:", errText);
-      throw new Error(`Failed to create product: ${errText}`);
-    }
-    
+    productsStore.unshift(newProduct);
+
     revalidatePath("/store");
     revalidatePath("/admin");
-    return await res.json();
+    return { success: true, product: newProduct };
   } catch (error: any) {
     console.error("Error creating product:", error);
     return { success: false, error: error.message || "Failed to create product" };
@@ -61,44 +85,48 @@ export async function createProduct(formData: FormData) {
 
 export async function updateProduct(id: string, formData: FormData) {
   try {
+    const index = productsStore.findIndex((p) => p.id === id);
+    if (index === -1) throw new Error("Product not found");
+
     const title = formData.get("title") as string;
     const price = formData.get("price") as string;
     const videoUrl = formData.get("videoUrl") as string;
     const category = formData.get("category") as string;
-    const description = formData.get("description") as string;
-    const buyUrl = formData.get("buyUrl") as string;
-    const thumbnailUrl = formData.get("thumbnailUrl") as string;
+    const description = (formData.get("description") as string) || null;
+    const buyUrl = (formData.get("buyUrl") as string) || null;
+    const thumbnailUrl = (formData.get("thumbnailUrl") as string) || null;
 
-    const res = await fetch(`${API_URL}/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, price, videoUrl, category, description, buyUrl, thumbnailUrl }),
-    });
+    productsStore[index] = {
+      ...productsStore[index],
+      title,
+      price,
+      videoUrl,
+      category,
+      description,
+      buyUrl,
+      thumbnailUrl,
+    };
 
-    if (!res.ok) throw new Error("Failed to update product");
-    
     revalidatePath("/store");
     revalidatePath("/admin");
-    return await res.json();
-  } catch (error) {
+    return { success: true, product: productsStore[index] };
+  } catch (error: any) {
     console.error("Error updating product:", error);
-    return { success: false, error: "Failed to update product" };
+    return { success: false, error: error.message || "Failed to update product" };
   }
 }
 
 export async function deleteProduct(id: string) {
   try {
-    const res = await fetch(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!res.ok) throw new Error("Failed to delete product");
-
+    const index = productsStore.findIndex((p) => p.id === id);
+    if (index !== -1) {
+      productsStore.splice(index, 1);
+    }
     revalidatePath("/store");
     revalidatePath("/admin");
-    return await res.json();
-  } catch (error) {
+    return { success: true };
+  } catch (error: any) {
     console.error("Error deleting product:", error);
-    return { success: false, error: "Failed to delete product" };
+    return { success: false, error: error.message || "Failed to delete product" };
   }
 }

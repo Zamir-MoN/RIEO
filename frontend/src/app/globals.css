@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'YFFRarePowerBlack';
+  src: url('/fonts/YFFRARETRIAL-PowerBlack.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   --font-sans: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
@@ -30,29 +38,299 @@
   }
 }
 
+.font-custom {
+  font-family: 'YFFRarePowerBlack', var(--font-yff-rare), Impact, sans-serif !important;
+}
+
 :root {
-  color-scheme: light;
+  color-scheme: dark;
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+
+/* Native View Transitions */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.28s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-x: clip;
+  max-width: 100vw;
+  width: 100%;
+  background-color: #050505;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: var(--color-bg-primary);
+  background-color: #050505;
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  max-width: 100vw;
+  width: 100%;
 }
 
-/* Custom Selection */
-::selection {
-  background-color: var(--color-accent-primary);
-  color: #fff;
+/* Headings optical balance & leading */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Hide scrollbar for clean look since we use Lenis */
-::-webkit-scrollbar {
-  display: none;
+p {
+  text-wrap: pretty;
 }
-html {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+/* Optical centering helper for badges & icons */
+.optical-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Safe area padding utilities */
+.safe-pt {
+  padding-top: max(1rem, var(--sat));
+}
+
+.safe-pb {
+  padding-bottom: max(1rem, var(--sab));
+}
+
+.safe-px {
+  padding-left: max(1rem, var(--sal));
+  padding-right: max(1rem, var(--sar));
+}
+
+/* GPU layer promotion and isolation for smooth scrolling without layout thrashing */
+#services, #works, #typography {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.pin-spacer {
+  background-color: #050505 !important;
+}
+
+/* =========================================
+   Cinematic Editorial Glitch Effect
+   ========================================= */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  animation: glitch-main 3.2s infinite linear;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  pointer-events: none;
+  background: transparent;
+}
+
+/* Cyan / Blue RGB Aberration & Top Slice Layer */
+.glitch-text::before {
+  color: #00F0FF;
+  z-index: -1;
+  text-shadow: -4px 0 #00F0FF;
+  animation: glitch-slice-1 2.8s infinite linear alternate-reverse;
+}
+
+/* Red / Neon Coral RGB Aberration & Bottom Slice Layer */
+.glitch-text::after {
+  color: #FF0055;
+  z-index: -2;
+  text-shadow: 4px 0 #FF0055;
+  animation: glitch-slice-2 3.4s infinite linear alternate-reverse;
+}
+
+/* Base text micro-jitter during glitch burst */
+@keyframes glitch-main {
+  0%, 74%, 82%, 87%, 94%, 100% {
+    transform: translate(0, 0);
+  }
+  75% {
+    transform: translate(-2px, 0.5px);
+  }
+  77% {
+    transform: translate(2px, -0.5px);
+  }
+  79% {
+    transform: translate(0, 0);
+  }
+  88% {
+    transform: translate(1.5px, 0);
+  }
+  90% {
+    transform: translate(-1.5px, 0);
+  }
+  92% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Sliced Cyan Glitch Keyframes */
+@keyframes glitch-slice-1 {
+  0%, 78%, 100% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(50% 0 50% 0);
+  }
+  79% {
+    opacity: 0.95;
+    transform: translate(-6px, -1px) skewX(-3deg);
+    clip-path: inset(12% 0 68% 0);
+  }
+  81% {
+    opacity: 0.95;
+    transform: translate(5px, 1px) skewX(2deg);
+    clip-path: inset(48% 0 32% 0);
+  }
+  83% {
+    opacity: 0.9;
+    transform: translate(-4px, 0);
+    clip-path: inset(78% 0 8% 0);
+  }
+  85% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(50% 0 50% 0);
+  }
+  91% {
+    opacity: 0.9;
+    transform: translate(4px, -1px) skewX(-2deg);
+    clip-path: inset(22% 0 58% 0);
+  }
+  93% {
+    opacity: 0.85;
+    transform: translate(-3px, 1px);
+    clip-path: inset(62% 0 18% 0);
+  }
+  95% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(50% 0 50% 0);
+  }
+}
+
+/* Sliced Red / Coral Glitch Keyframes */
+@keyframes glitch-slice-2 {
+  0%, 74%, 100% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(50% 0 50% 0);
+  }
+  75% {
+    opacity: 0.95;
+    transform: translate(6px, 1px) skewX(3deg);
+    clip-path: inset(35% 0 42% 0);
+  }
+  77% {
+    opacity: 0.9;
+    transform: translate(-5px, -1px) skewX(-2deg);
+    clip-path: inset(68% 0 12% 0);
+  }
+  79% {
+    opacity: 0.9;
+    transform: translate(3px, 0);
+    clip-path: inset(8% 0 78% 0);
+  }
+  81% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(50% 0 50% 0);
+  }
+  88% {
+    opacity: 0.9;
+    transform: translate(-5px, 1px) skewX(2deg);
+    clip-path: inset(18% 0 62% 0);
+  }
+  90% {
+    opacity: 0.85;
+    transform: translate(4px, -1px);
+    clip-path: inset(52% 0 28% 0);
+  }
+  92% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(50% 0 50% 0);
+  }
+}
+
+/* Mobile Horizontal (Landscape) Exact Desktop 1:1 Match */
+@media (orientation: landscape) and (max-height: 550px) {
+  .hero-section-root {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+  .hero-center-text {
+    top: 36vh !important;
+  }
+  .hero-title h1 {
+    font-size: clamp(3rem, 13.5vw, 5rem) !important;
+  }
+  .hero-portrait {
+    top: 36vh !important;
+    transform: translate(-50%, -24%) !important;
+    height: clamp(260px, 82vh, 340px) !important;
+  }
+  .hero-badge-1 {
+    top: max(0.5rem, env(safe-area-inset-top, 8px)) !important;
+    left: max(1rem, env(safe-area-inset-left, 16px)) !important;
+    transform: scale(0.78);
+    transform-origin: top left;
+  }
+  .hero-badge-2 {
+    bottom: max(3.5rem, 16vh) !important;
+    left: max(1rem, env(safe-area-inset-left, 16px)) !important;
+    transform: scale(0.72);
+    transform-origin: bottom left;
+  }
+  .hero-badge-3 {
+    top: 50% !important;
+    transform: translateY(-50%) scale(0.75) !important;
+    right: max(1rem, env(safe-area-inset-right, 16px)) !important;
+    transform-origin: center right;
+  }
+  .hero-bottom-text {
+    bottom: max(0.5rem, env(safe-area-inset-bottom, 6px)) !important;
+    left: max(1rem, env(safe-area-inset-left, 16px)) !important;
+    font-size: 10px !important;
+  }
+  .hero-bottom-right-text {
+    bottom: max(0.5rem, env(safe-area-inset-bottom, 6px)) !important;
+    right: max(1rem, env(safe-area-inset-right, 16px)) !important;
+    font-size: 8px !important;
+    max-width: 170px !important;
+  }
+  .dock-navigation-container {
+    transform: scale(0.72) !important;
+    transform-origin: bottom center !important;
+    padding-bottom: max(0.25rem, env(safe-area-inset-bottom, 4px)) !important;
+  }
 }

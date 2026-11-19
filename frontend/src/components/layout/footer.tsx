@@ -64,7 +64,7 @@ export function Footer() {
         </svg>
       </div>
       
-      <div className="relative w-full min-h-[100vh] bg-[#050505] flex flex-col items-center justify-between py-12 px-6 md:px-12 overflow-hidden">
+      <div className="relative w-full min-h-[100vh] bg-[#050505] flex flex-col items-center justify-between py-12 px-6 md:px-12 pb-[max(5rem,calc(env(safe-area-inset-bottom,0px)+3.5rem))] overflow-hidden">
         
         {/* Background Neon Doodles */}
           <>
@@ -118,7 +118,7 @@ export function Footer() {
         >
           <motion.h2 
             variants={itemVariants}
-            className="text-6xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-bold font-heading tracking-tighter leading-[0.9] text-white flex flex-col relative"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[10rem] font-bold font-heading tracking-tighter leading-[0.9] text-white flex flex-col relative px-4"
           >
             <span>Contact with</span>
             <span className="relative inline-block">

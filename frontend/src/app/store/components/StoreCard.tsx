@@ -17,7 +17,13 @@ export function StoreCard({ product }: { product: any }) {
     : product.videoUrl;
 
   const handleCardClick = () => {
-    router.push(`/store/${product.id}`);
+    if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+      (document as any).startViewTransition(() => {
+        router.push(`/store/${product.id}`);
+      });
+    } else {
+      router.push(`/store/${product.id}`);
+    }
   };
 
   const telegramUsername = "RIEOEDIT";
@@ -52,6 +58,7 @@ Price: **₹${product.price.replace(/^[^0-9]+/, '')}**`;
               loop
               muted
               playsInline
+              preload="metadata"
               poster={product.thumbnailUrl || undefined}
               className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
             >
@@ -62,6 +69,8 @@ Price: **₹${product.price.replace(/^[^0-9]+/, '')}**`;
           <img
             src={product.thumbnailUrl}
             alt={product.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
           />
         ) : null}

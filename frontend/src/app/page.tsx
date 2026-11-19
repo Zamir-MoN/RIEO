@@ -18,7 +18,7 @@ export default function Home() {
       </section>
 
       {/* Services/Workflow Preview (Horizontal Scroll) / Works */}
-      <section id="works">
+      <section id="works" className="w-full bg-[#050505]">
         <HorizontalScrollServices />
       </section>
 

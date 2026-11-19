@@ -132,3 +132,58 @@ pm2 startup
 ```
 *(Note: Run the command output by `pm2 startup` if it prompts you to).*
 
+---
+
+## 8. Updating the App (Deployment Workflow)
+
+Whenever you make changes locally (like styling updates or new features), use this standard workflow to deploy them to your VPS.
+
+**Step 1: Push your changes locally**
+Run this in your local VS Code terminal:
+```bash
+git add .
+git commit -m "update application"
+git push
+```
+
+**Step 2: Pull and Rebuild on your VPS**
+Run this in your VPS SSH terminal:
+```bash
+# 1. Navigate to the app directory
+cd ~/RIEO
+
+# 2. Pull the latest code from GitHub
+git pull
+
+# 3. (Optional) If you changed Prisma schema or added packages
+# npm install
+# cd backend && npx prisma generate && npx prisma db push && cd ..
+
+# 4. Rebuild the frontend
+npm run build --workspace=frontend
+
+# 5. Restart the PM2 processes to apply changes
+pm2 restart rieo-frontend
+pm2 restart rieo-backend
+```
+
+---
+
+## 9. Built-in Features Guide
+
+### 📱 Telegram Checkout Integration
+If you leave the **"Buy / Download URL"** field empty when creating a product, the "Buy Now" button automatically becomes a Telegram Checkout link.
+* **Customer Flow:** Clicking "Buy Now" opens their Telegram app directed to your DM (`@RIEOEDIT`).
+* **Prefilled Message:** It automatically formats a clean, bold message:
+  ```text
+  Hello! I want to buy:
+  
+  **Product Name**
+  Price: **₹123**
+  ```
+
+### 🎬 Google Drive Auto-Play Videos
+You can paste a standard Google Drive share link (e.g., `https://drive.google.com/file/d/ID/view`) into the **Video URL** field.
+* **Automatic Streaming:** The system extracts the hidden file ID and converts it into a direct streaming link, bypassing the Google Drive webpage viewer.
+* **Premium Player:** The video pipes natively into the custom UI player (auto-playing, looping, muted) without any Google branding.
+* **Thumbnail Fallback:** If a video fails to load (e.g., Google Drive blocks streaming for files >100MB due to virus scans), the system gracefully displays the provided **Thumbnail** as the fallback poster image.

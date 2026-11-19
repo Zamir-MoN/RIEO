@@ -1,7 +1,7 @@
 "use client";
 
-import { ReactLenis } from "lenis/react";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactLenis, useLenis } from "lenis/react";
+import { ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,24 +9,26 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export function LenisProvider({ children }: { children: ReactNode }) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const lenisRef = useRef<any>(null);
-  
-  useEffect(() => {
-    function update(time: number) {
-      lenisRef.current?.lenis?.raf(time * 1000);
-    }
-  
-    gsap.ticker.add(update);
-  
-    return () => {
-      gsap.ticker.remove(update);
-    };
-  }, []);
+function ScrollTriggerSync() {
+  useLenis(() => {
+    ScrollTrigger.update();
+  });
+  return null;
+}
 
+export function LenisProvider({ children }: { children: ReactNode }) {
   return (
-    <ReactLenis ref={lenisRef} root autoRaf={false} options={{ lerp: 0.05, duration: 1.2, smoothWheel: true }}>
+    <ReactLenis
+      root
+      options={{
+        lerp: 0.1,
+        duration: 1.2,
+        smoothWheel: true,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.2,
+      }}
+    >
+      <ScrollTriggerSync />
       {children}
     </ReactLenis>
   );
