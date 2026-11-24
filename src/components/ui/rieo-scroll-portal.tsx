@@ -60,22 +60,23 @@ export function RieoScrollPortal() {
         return stageCenterX - oCenterX;
       };
 
+      // Exact mathematical vector geometry of the "O" in YFFRarePowerBlack:
+      // Aspect ratio = width / height = 1.625
+      // Radius = height / 2 (exact stadium pill matching Image 1)
       const getODimensions = () => {
-        const w = oContainer.offsetWidth || 160;
-        const h = oContainer.offsetHeight || 120;
-        return {
-          w,
-          h,
-          radius: Math.min(w, h) * 0.48,
-        };
+        const w = oContainer.offsetWidth || 180;
+        const h = w / 1.625;
+        const radius = h / 2;
+        return { w, h, radius };
       };
 
-      // Set initial state of portalCard matching the "O" letter size & stadium-pill shape
+      // Set initial state of portalCard matching the "O" glyph shape with 100% precision
       const oDim = getODimensions();
       gsap.set(portalCard, {
         width: oDim.w,
         height: oDim.h,
         borderRadius: oDim.radius,
+        top: "47%",
         opacity: 0,
         pointerEvents: "none",
         force3D: true,
@@ -102,7 +103,7 @@ export function RieoScrollPortal() {
          PHASE 1: FOCUS & "O" CENTERING (0.00 -> 0.35)
          - "R", "I", "E" glide outward and fade out with blur.
          - The word shifts so "O" sits directly in stage center.
-         - Portal card fades in at exact O size, O character fades out.
+         - Portal card fades in at the EXACT "O" stadium pill bounds.
          ============================================================ */
       tl.to(
         hint,
@@ -163,10 +164,10 @@ export function RieoScrollPortal() {
 
       /* ============================================================
          PHASE 2: EXPANSION OF "O" INTO FULL SECTION (0.35 -> 1.00)
-         - Portal card expands from O dimensions outward to 100vw x 100dvh.
-         - Border-radius animates from stadium pill to 0px (full bleed).
-         - Glowing border softens into screen edges.
-         - Showcase content inside zooms in from scale 0.92 to 1.0.
+         - The stadium pill smoothly expands outward to 100vw x 100dvh.
+         - Border-radius animates from pill radius to 0px.
+         - Top animates from 47% (glyph optical center) to 50% (screen center).
+         - Showcase content inside zooms in gracefully.
          ============================================================ */
       tl.to(
         portalCard,
@@ -175,6 +176,7 @@ export function RieoScrollPortal() {
           height: () => `${stage.clientHeight}px`,
           borderRadius: 0,
           borderWidth: 0,
+          top: "50%",
           duration: 1.4,
           ease: "power3.inOut",
         },
@@ -195,7 +197,6 @@ export function RieoScrollPortal() {
       /* ============================================================
          PHASE 3: HOLD SECTION AT FULL SCREEN (1.00 -> 1.60)
          - User browses the full showcase section comfortably.
-         - Subtle card float/depth effect.
          ============================================================ */
       tl.to(
         ".portal-feature-card",
@@ -210,13 +211,12 @@ export function RieoScrollPortal() {
 
       /* ============================================================
          PHASE 4: REDUCTION OF SECTION BACK INTO "O" (1.60 -> 2.50)
-         - "then after more scroll it the section reduce to O again"
-         - Portal card shrinks symmetrically back down to O dimensions!
-         - Border-radius returns to stadium pill.
-         - Content scales down and fades out.
-         - O character reappears.
-         - Word shifts back to center "RIEO".
-         - "R", "I", "E" glide back in.
+         - "the section reduce to O again"
+         - Portal card shrinks back symmetrically into the exact "O" stadium pill!
+         - Border-radius returns to radius = height / 2.
+         - Top returns to 47%.
+         - "O" character glyph returns.
+         - "R", "I", "E" glide back in to complete "RIEO".
          ============================================================ */
       tl.to(
         content,
@@ -236,6 +236,7 @@ export function RieoScrollPortal() {
           height: () => `${getODimensions().h}px`,
           borderRadius: () => `${getODimensions().radius}px`,
           borderWidth: 2,
+          top: "47%",
           duration: 1.4,
           ease: "power3.inOut",
           onComplete: () => {
@@ -352,14 +353,15 @@ export function RieoScrollPortal() {
               {/* 
                 ============================================================
                 THE EXPANDING "O" PORTAL CARD
-                Anchored directly to the center of the "O" with translate(-50%, -50%).
+                Exact stadium pill shape: Aspect Ratio 1.625, radius = h / 2.
+                Anchored directly to the optical center of the "O" (top: 47%, left: 50%).
                 Expands outward symmetrically to 100vw x 100dvh,
-                then reduces symmetrically back into the "O" stadium pill!
+                then reduces symmetrically back into the exact "O" contour!
                 ============================================================
               */}
               <div
                 ref={portalCardRef}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#0A0A0A] border-2 border-[#00FF41] shadow-[0_0_60px_rgba(0,255,65,0.4)] will-change-[width,height,border-radius,opacity] z-30"
+                className="absolute top-[47%] left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#0A0A0A] border-2 border-[#00FF41] shadow-[0_0_50px_rgba(0,255,65,0.4)] will-change-[width,height,border-radius,opacity,top] z-30"
               >
                 {/* Background Video inside the Portal */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
@@ -473,7 +475,7 @@ export function RieoScrollPortal() {
                     </div>
                   </div>
 
-                  {/* Bottom Bar inside Portal: Shows scroll direction indicator */}
+                  {/* Bottom Bar inside Portal */}
                   <div className="border-t border-white/10 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
                     <div className="flex items-center gap-2">
                       <span className="text-white font-medium">Keep scrolling</span>
