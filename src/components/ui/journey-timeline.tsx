@@ -102,13 +102,11 @@ export function JourneyTimeline() {
   };
 
   useGSAP(() => {
-    if (!pathRef.current) return;
-
-    const length = pathRef.current.getTotalLength();
+    if (!pathRef.current || !svgContainerRef.current) return;
 
     gsap.set(pathRef.current, {
-      strokeDasharray: length,
-      strokeDashoffset: length,
+      strokeDasharray: 1,
+      strokeDashoffset: 1,
     });
 
     // Animate the line drawing smoothly with scroll
@@ -117,11 +115,11 @@ export function JourneyTimeline() {
       ease: "none",
       scrollTrigger: {
         trigger: svgContainerRef.current,
-        start: "top 75%",
-        end: "bottom 75%",
-        scrub: 0.45,
+        start: "top 80%",
+        end: "bottom 80%",
+        scrub: 0.5,
         invalidateOnRefresh: true,
-      }
+      },
     });
 
     // Track active state with smooth thresholds
@@ -305,6 +303,9 @@ export function JourneyTimeline() {
             <path 
               ref={pathRef}
               d={svgPath}
+              pathLength={1}
+              strokeDasharray={1}
+              strokeDashoffset={1}
               fill="none" 
               stroke="#0A0A0A" 
               strokeWidth="14" 
