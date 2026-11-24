@@ -301,6 +301,7 @@ export function JourneyTimeline() {
                   {item.desc}
                 </p>
               </div>
+            </div>
             ))}
           </div>
 
