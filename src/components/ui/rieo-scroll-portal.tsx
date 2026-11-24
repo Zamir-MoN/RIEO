@@ -4,7 +4,6 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import ColorBends from "./color-bends";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -357,8 +356,19 @@ export function RieoScrollPortal() {
         5.1
       );
 
-      // Brief lock before unpinning
-      tl.to({}, { duration: 0.3 });
+      /* ============================================================
+         PHASE 6: "RIEO" GLIDES UPWARD TO REVEAL NEXT CARD (5.75 -> 6.45)
+         ============================================================ */
+      tl.to(
+        word,
+        {
+          y: () => -stage.clientHeight * 0.65,
+          opacity: 0,
+          duration: 0.7,
+          ease: "power2.inOut",
+        },
+        5.75
+      );
     },
     { scope: containerRef }
   );
@@ -366,32 +376,13 @@ export function RieoScrollPortal() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[450vh] bg-[#050505] text-white selection:bg-white selection:text-black"
+      className="relative w-full h-[460vh] bg-transparent text-white selection:bg-white selection:text-black"
     >
       {/* Sticky Fullscreen Stage: Stays centered in viewport during scroll */}
       <div
         ref={stageRef}
-        className="sticky top-0 relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-[#050505]"
+        className="sticky top-0 relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-transparent pointer-events-none"
       >
-        {/* Interactive Reactive Shader Background */}
-        <div className="absolute inset-0 z-0">
-          <ColorBends
-            colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
-            rotation={90}
-            speed={0.2}
-            scale={1}
-            frequency={1}
-            warpStrength={1}
-            mouseInfluence={1}
-            noise={0.08}
-            parallax={0.5}
-            iterations={1}
-            intensity={1.05}
-            bandWidth={6}
-            transparent
-          />
-        </div>
-
         {/* Center Typography: "R I E O" */}
         <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none select-none">
           <div

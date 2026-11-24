@@ -279,7 +279,7 @@ export function TextHoverSection() {
   const activePlatform = platforms[activeIndex];
 
   return (
-    <section className="relative w-full bg-[#050505] flex flex-col items-center justify-center overflow-hidden py-6 sm:py-12 md:py-20 px-2.5 sm:px-6 lg:px-8">
+    <section className="relative w-full bg-transparent flex flex-col items-center justify-center overflow-hidden py-6 sm:py-12 md:py-20 px-2.5 sm:px-6 lg:px-8">
       <div className="relative w-full max-w-[1500px] mx-auto bg-[#D5D1C3] text-[#1A1A1A] rounded-2xl sm:rounded-[2.5rem] md:rounded-[3.5rem] py-6 sm:py-16 md:py-24 px-3.5 sm:px-12 lg:px-16 shadow-2xl overflow-hidden">
         
         {/* Subtle Ambient Glow */}
