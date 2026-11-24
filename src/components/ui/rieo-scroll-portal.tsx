@@ -17,9 +17,9 @@ export function RieoScrollPortal() {
   const rRef = useRef<HTMLSpanElement>(null);
   const iRef = useRef<HTMLSpanElement>(null);
   const eRef = useRef<HTMLSpanElement>(null);
-  const oRef = useRef<HTMLDivElement>(null);
+  const oContainerRef = useRef<HTMLDivElement>(null);
   const oCharRef = useRef<HTMLSpanElement>(null);
-  const portalRef = useRef<HTMLDivElement>(null);
+  const portalCardRef = useRef<HTMLDivElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
   const hintRef = useRef<HTMLDivElement>(null);
 
@@ -31,46 +31,63 @@ export function RieoScrollPortal() {
       const r = rRef.current;
       const i = iRef.current;
       const e = eRef.current;
-      const o = oRef.current;
+      const oContainer = oContainerRef.current;
       const oChar = oCharRef.current;
-      const portal = portalRef.current;
+      const portalCard = portalCardRef.current;
       const content = portalContentRef.current;
       const hint = hintRef.current;
 
-      if (!container || !stage || !word || !r || !i || !e || !o || !oChar || !portal || !content) return;
+      if (
+        !container ||
+        !stage ||
+        !word ||
+        !r ||
+        !i ||
+        !e ||
+        !oContainer ||
+        !oChar ||
+        !portalCard ||
+        !content
+      )
+        return;
 
-      // Function to calculate exact center offset for "O" and exact "O" insets
-      const getMetrics = () => {
+      // Calculate shift to center the "O" horizontally in the viewport
+      const getShiftX = () => {
         const stageRect = stage.getBoundingClientRect();
-        const oRect = o.getBoundingClientRect();
-
-        // How much wordRef needs to shift horizontally to place "O" at stage center:
+        const oRect = oContainer.getBoundingClientRect();
         const stageCenterX = stageRect.left + stageRect.width / 2;
         const oCenterX = oRect.left + oRect.width / 2;
-        const shiftX = stageCenterX - oCenterX;
-
-        // Insets to match "O" size when collapsed in center
-        const oW = oRect.width;
-        const oH = oRect.height;
-        const insetTop = Math.max(0, (stageRect.height - oH) / 2);
-        const insetBottom = insetTop;
-        const insetLeft = Math.max(0, (stageRect.width - oW) / 2);
-        const insetRight = insetLeft;
-        const oRadius = Math.min(oW, oH) * 0.48;
-
-        return { shiftX, insetTop, insetRight, insetBottom, insetLeft, oRadius };
+        return stageCenterX - oCenterX;
       };
 
-      // Set initial states
-      const initialMetrics = getMetrics();
-      gsap.set(portal, {
-        clipPath: `inset(${initialMetrics.insetTop}px ${initialMetrics.insetRight}px ${initialMetrics.insetBottom}px ${initialMetrics.insetLeft}px round ${initialMetrics.oRadius}px)`,
-        autoAlpha: 0,
+      const getODimensions = () => {
+        const w = oContainer.offsetWidth || 160;
+        const h = oContainer.offsetHeight || 120;
+        return {
+          w,
+          h,
+          radius: Math.min(w, h) * 0.48,
+        };
+      };
+
+      // Set initial state of portalCard matching the "O" letter size & stadium-pill shape
+      const oDim = getODimensions();
+      gsap.set(portalCard, {
+        width: oDim.w,
+        height: oDim.h,
+        borderRadius: oDim.radius,
+        opacity: 0,
+        pointerEvents: "none",
         force3D: true,
       });
-      gsap.set(content, { scale: 0.88, opacity: 0, force3D: true });
 
-      // Create main scrubbed timeline
+      gsap.set(content, {
+        opacity: 0,
+        scale: 0.92,
+        force3D: true,
+      });
+
+      // Timeline scrubbed by scroll
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
@@ -82,17 +99,17 @@ export function RieoScrollPortal() {
       });
 
       /* ============================================================
-         PHASE 1: FOCUS & "O" CENTERING (0% -> 22%)
+         PHASE 1: FOCUS & "O" CENTERING (0.00 -> 0.35)
          - "R", "I", "E" glide outward and fade out with blur.
-         - The word shifts so "O" sits directly in the stage center.
-         - The portal activates matching the "O" dimensions.
+         - The word shifts so "O" sits directly in stage center.
+         - Portal card fades in at exact O size, O character fades out.
          ============================================================ */
       tl.to(
         hint,
         {
           opacity: 0,
           y: -20,
-          duration: 0.2,
+          duration: 0.3,
           ease: "power2.out",
         },
         0
@@ -101,60 +118,67 @@ export function RieoScrollPortal() {
       tl.to(
         [r, i, e],
         {
-          x: -120,
+          x: -140,
           opacity: 0,
           filter: "blur(12px)",
-          stagger: 0.04,
-          duration: 0.6,
+          stagger: 0.05,
+          duration: 0.8,
           ease: "power3.inOut",
         },
-        0.05
+        0.1
       );
 
       tl.to(
         word,
         {
-          x: () => getMetrics().shiftX,
-          duration: 0.6,
+          x: () => getShiftX(),
+          duration: 0.8,
           ease: "power3.inOut",
         },
-        0.05
+        0.1
       );
 
       tl.to(
-        portal,
+        portalCard,
         {
-          autoAlpha: 1,
-          duration: 0.2,
+          opacity: 1,
+          duration: 0.25,
           ease: "power1.in",
+          onStart: () => {
+            if (portalCard) portalCard.style.pointerEvents = "auto";
+          },
         },
-        0.4
+        0.75
       );
 
       tl.to(
         oChar,
         {
           opacity: 0,
-          scale: 1.1,
-          duration: 0.2,
+          duration: 0.25,
           ease: "power1.in",
         },
-        0.45
+        0.75
       );
 
       /* ============================================================
-         PHASE 2: EXPANSION OF "O" INTO FULL SECTION (22% -> 45%)
-         - The portal expands to 100vw x 100vh with round 0px.
-         - Showcase content inside zooms into focus (scale 1.0, opacity 1).
+         PHASE 2: EXPANSION OF "O" INTO FULL SECTION (0.35 -> 1.00)
+         - Portal card expands from O dimensions outward to 100vw x 100dvh.
+         - Border-radius animates from stadium pill to 0px (full bleed).
+         - Glowing border softens into screen edges.
+         - Showcase content inside zooms in from scale 0.92 to 1.0.
          ============================================================ */
       tl.to(
-        portal,
+        portalCard,
         {
-          clipPath: "inset(0px 0px 0px 0px round 0px)",
-          duration: 1.2,
-          ease: "power4.inOut",
+          width: () => `${stage.clientWidth}px`,
+          height: () => `${stage.clientHeight}px`,
+          borderRadius: 0,
+          borderWidth: 0,
+          duration: 1.4,
+          ease: "power3.inOut",
         },
-        0.5
+        0.9
       );
 
       tl.to(
@@ -162,88 +186,93 @@ export function RieoScrollPortal() {
         {
           scale: 1.0,
           opacity: 1,
-          duration: 1.0,
-          ease: "power3.out",
+          duration: 1.1,
+          ease: "power2.out",
         },
-        0.7
+        1.2
       );
 
       /* ============================================================
-         PHASE 3: HOLD SECTION AT FULL SIZE (45% -> 65%)
-         - User browses the immersive showcase content at full screen.
+         PHASE 3: HOLD SECTION AT FULL SCREEN (1.00 -> 1.60)
+         - User browses the full showcase section comfortably.
+         - Subtle card float/depth effect.
          ============================================================ */
       tl.to(
-        ".portal-card",
+        ".portal-feature-card",
         {
-          y: -12,
-          stagger: 0.08,
+          y: -14,
+          stagger: 0.1,
           duration: 0.8,
           ease: "sine.inOut",
         },
-        1.7
+        2.3
       );
 
       /* ============================================================
-         PHASE 4: REDUCTION OF SECTION BACK INTO "O" (65% -> 88%)
-         - "the section reduce to O again"
-         - Portal smoothly collapses back to the exact "O" insets & radius.
-         - "O" glyph reappears.
+         PHASE 4: REDUCTION OF SECTION BACK INTO "O" (1.60 -> 2.50)
+         - "then after more scroll it the section reduce to O again"
+         - Portal card shrinks symmetrically back down to O dimensions!
+         - Border-radius returns to stadium pill.
+         - Content scales down and fades out.
+         - O character reappears.
          - Word shifts back to center "RIEO".
-         - "R", "I", "E" glide back in with full opacity.
+         - "R", "I", "E" glide back in.
          ============================================================ */
       tl.to(
         content,
         {
-          scale: 0.88,
+          scale: 0.92,
           opacity: 0,
           duration: 0.8,
-          ease: "power3.in",
+          ease: "power2.in",
         },
-        2.5
+        3.1
       );
 
       tl.to(
-        portal,
+        portalCard,
         {
-          clipPath: () => {
-            const m = getMetrics();
-            return `inset(${m.insetTop}px ${m.insetRight}px ${m.insetBottom}px ${m.insetLeft}px round ${m.oRadius}px)`;
+          width: () => `${getODimensions().w}px`,
+          height: () => `${getODimensions().h}px`,
+          borderRadius: () => `${getODimensions().radius}px`,
+          borderWidth: 2,
+          duration: 1.4,
+          ease: "power3.inOut",
+          onComplete: () => {
+            if (portalCard) portalCard.style.pointerEvents = "none";
           },
-          duration: 1.2,
-          ease: "power4.inOut",
         },
-        2.6
+        3.2
       );
 
       tl.to(
         oChar,
         {
           opacity: 1,
-          scale: 1.0,
           duration: 0.3,
           ease: "power2.out",
         },
-        3.6
+        4.5
       );
 
       tl.to(
-        portal,
+        portalCard,
         {
-          autoAlpha: 0,
-          duration: 0.2,
+          opacity: 0,
+          duration: 0.25,
           ease: "power1.out",
         },
-        3.7
+        4.5
       );
 
       tl.to(
         word,
         {
           x: 0,
-          duration: 0.7,
+          duration: 0.8,
           ease: "power3.out",
         },
-        3.6
+        4.5
       );
 
       tl.to(
@@ -252,11 +281,11 @@ export function RieoScrollPortal() {
           x: 0,
           opacity: 1,
           filter: "blur(0px)",
-          stagger: 0.04,
-          duration: 0.7,
+          stagger: 0.05,
+          duration: 0.8,
           ease: "power3.out",
         },
-        3.6
+        4.5
       );
 
       tl.to(
@@ -267,10 +296,10 @@ export function RieoScrollPortal() {
           duration: 0.4,
           ease: "power2.out",
         },
-        4.0
+        5.0
       );
 
-      // Brief padding before transition
+      // Brief lock before unpinning
       tl.to({}, { duration: 0.4 });
     },
     { scope: containerRef }
@@ -279,16 +308,16 @@ export function RieoScrollPortal() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[360vh] bg-[#050505] text-white selection:bg-[#00FF41] selection:text-black"
+      className="relative w-full h-[380vh] bg-[#050505] text-white selection:bg-[#00FF41] selection:text-black"
     >
-      {/* Sticky Fullscreen Stage: Stays locked in viewport during scroll */}
+      {/* Sticky Fullscreen Stage: Stays centered in viewport during scroll */}
       <div
         ref={stageRef}
         className="sticky top-0 h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-[#050505]"
       >
         {/* Subtle Ambient Background Gradients */}
         <div className="absolute inset-0 pointer-events-none z-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(700px,90vw)] h-[min(700px,90vw)] rounded-full bg-gradient-to-tr from-[#00FF41]/10 via-[#00E5FF]/5 to-transparent blur-[120px] opacity-60" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(700px,90vw)] h-[min(700px,90vw)] rounded-full bg-gradient-to-tr from-[#00FF41]/10 via-[#00E5FF]/5 to-transparent blur-[130px] opacity-60" />
         </div>
 
         {/* Center Typography: "R I E O" */}
@@ -306,16 +335,165 @@ export function RieoScrollPortal() {
             <span ref={eRef} className="inline-block will-change-transform">
               E
             </span>
+
+            {/* The "O" Wrapper: Houses the O glyph and the expanding portal aperture */}
             <div
-              ref={oRef}
+              ref={oContainerRef}
               className="relative inline-flex items-center justify-center will-change-transform"
             >
+              {/* O Character glyph */}
               <span
                 ref={oCharRef}
-                className="inline-block text-white transition-colors duration-300 will-change-transform"
+                className="inline-block text-white transition-opacity duration-300 will-change-transform"
               >
                 O
               </span>
+
+              {/* 
+                ============================================================
+                THE EXPANDING "O" PORTAL CARD
+                Anchored directly to the center of the "O" with translate(-50%, -50%).
+                Expands outward symmetrically to 100vw x 100dvh,
+                then reduces symmetrically back into the "O" stadium pill!
+                ============================================================
+              */}
+              <div
+                ref={portalCardRef}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#0A0A0A] border-2 border-[#00FF41] shadow-[0_0_60px_rgba(0,255,65,0.4)] will-change-[width,height,border-radius,opacity] z-30"
+              >
+                {/* Background Video inside the Portal */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    className="w-full h-full object-cover opacity-35 grayscale contrast-125 scale-105"
+                  >
+                    <source src="/hero-bg-2.mp4" type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/75 to-[#0A0A0A]/90" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,65,0.08)_0%,transparent_70%)]" />
+                </div>
+
+                {/* 
+                  Inner Fullscreen Content Container:
+                  Centered inside the portal aperture with w-screen h-[100dvh],
+                  so content stays beautifully aligned regardless of portal size!
+                */}
+                <div
+                  ref={portalContentRef}
+                  className="w-screen h-[100dvh] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between p-5 sm:p-8 md:p-14 lg:p-16 max-w-7xl mx-auto overflow-hidden pointer-events-auto will-change-[transform,opacity]"
+                >
+                  {/* Top Bar inside Portal */}
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4 sm:pb-6">
+                    <div className="flex items-center gap-3">
+                      <span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF41] opacity-75" />
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00FF41]" />
+                      </span>
+                      <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#00FF41]">
+                        Inside The Portal • RIEO Showcase
+                      </span>
+                    </div>
+
+                    <div className="hidden sm:flex items-center gap-2 text-xs text-gray-400 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+                      <Film className="w-3.5 h-3.5 text-[#00FF41]" />
+                      <span>Cinematic Reel 2026</span>
+                    </div>
+                  </div>
+
+                  {/* Middle Hero Showcase inside Portal */}
+                  <div className="my-auto py-6 sm:py-8">
+                    <div className="max-w-3xl">
+                      <p className="text-xs sm:text-sm md:text-base font-semibold text-[#00FF41] uppercase tracking-wider mb-2">
+                        Vision • Motion • Rhythm
+                      </p>
+                      <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white uppercase font-sans">
+                        Crafting Visuals That{" "}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">
+                          Command Attention.
+                        </span>
+                      </h2>
+                      <p className="mt-3 sm:mt-4 text-xs sm:text-base md:text-lg text-gray-300 max-w-2xl leading-relaxed">
+                        Every cut is deliberate. Every keyframe has purpose. Transforming high-velocity ideas into festival-grade motion graphics and viral commercials.
+                      </p>
+                    </div>
+
+                    {/* 3 Feature Highlight Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mt-6 sm:mt-10">
+                      {/* Card 1 */}
+                      <div className="portal-feature-card bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300">
+                        <div className="w-10 h-10 rounded-xl bg-[#00FF41]/10 border border-[#00FF41]/30 flex items-center justify-center text-[#00FF41] mb-3 sm:mb-4">
+                          <Eye className="w-5 h-5" />
+                        </div>
+                        <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          01 • Direction
+                        </div>
+                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1.5">
+                          Rhythmic Pacing
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-400 leading-snug">
+                          Hooking viewers in the first 2.5 seconds with seamless sync between sound and frame.
+                        </p>
+                      </div>
+
+                      {/* Card 2 */}
+                      <div className="portal-feature-card bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300">
+                        <div className="w-10 h-10 rounded-xl bg-[#00E5FF]/10 border border-[#00E5FF]/30 flex items-center justify-center text-[#00E5FF] mb-3 sm:mb-4">
+                          <Layers className="w-5 h-5" />
+                        </div>
+                        <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          02 • 3D &amp; VFX
+                        </div>
+                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1.5">
+                          Spatial Motion
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-400 leading-snug">
+                          Kinetic typography, holographic UI graphics, and cinematic 3D camera projections.
+                        </p>
+                      </div>
+
+                      {/* Card 3 */}
+                      <div className="portal-feature-card bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300">
+                        <div className="w-10 h-10 rounded-xl bg-[#F5FF00]/10 border border-[#F5FF00]/30 flex items-center justify-center text-[#F5FF00] mb-3 sm:mb-4">
+                          <Film className="w-5 h-5" />
+                        </div>
+                        <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">
+                          03 • Color Grade
+                        </div>
+                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1.5">
+                          Hollywood Tonal
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-400 leading-snug">
+                          Bespoke color contrast science tailored to give footage an instant cinematic prestige.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom Bar inside Portal: Shows scroll direction indicator */}
+                  <div className="border-t border-white/10 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
+                    <div className="flex items-center gap-2">
+                      <span className="text-white font-medium">Keep scrolling</span>
+                      <span className="text-gray-500">•</span>
+                      <span>Section collapses back to &ldquo;O&rdquo;</span>
+                      <ArrowDown className="w-3.5 h-3.5 text-[#00FF41] animate-bounce" />
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <a
+                        href="/store"
+                        className="inline-flex items-center gap-1.5 text-[#00FF41] hover:underline font-bold"
+                      >
+                        <span>Explore Assets &amp; Presets</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -327,145 +505,6 @@ export function RieoScrollPortal() {
             <Sparkles className="w-3.5 h-3.5 text-[#00FF41] animate-pulse" />
             <span>Scroll to expand the &ldquo;O&rdquo;</span>
             <ArrowDown className="w-3.5 h-3.5 text-[#00FF41] animate-bounce" />
-          </div>
-        </div>
-
-        {/* 
-          ============================================================
-          THE EXPANDING "O" PORTAL SECTION
-          Opens seamlessly from the "O" coordinates to full bleed,
-          then reduces back into the "O" on further scroll.
-          ============================================================
-        */}
-        <div
-          ref={portalRef}
-          className="absolute inset-0 z-30 pointer-events-auto overflow-hidden bg-[#0A0A0A] border border-white/15 shadow-[0_0_80px_rgba(0,255,65,0.25)] will-change-[clip-path,opacity]"
-          style={{ visibility: "hidden", opacity: 0 }}
-        >
-          {/* Background Video inside the Portal */}
-          <div className="absolute inset-0 z-0 pointer-events-none">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              className="w-full h-full object-cover opacity-35 grayscale contrast-125 scale-105"
-            >
-              <source src="/hero-bg-2.mp4" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/75 to-[#0A0A0A]/90" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,65,0.08)_0%,transparent_70%)]" />
-          </div>
-
-          {/* Content inside the Portal */}
-          <div
-            ref={portalContentRef}
-            className="relative z-10 w-full h-full flex flex-col justify-between p-5 sm:p-8 md:p-14 lg:p-16 max-w-7xl mx-auto will-change-[transform,opacity]"
-          >
-            {/* Top Bar inside Portal */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 sm:pb-6">
-              <div className="flex items-center gap-3">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF41] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[#00FF41]" />
-                </span>
-                <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#00FF41]">
-                  Inside The Portal • RIEO Cinematic
-                </span>
-              </div>
-
-              <div className="hidden sm:flex items-center gap-2 text-xs text-gray-400 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-                <Film className="w-3.5 h-3.5 text-[#00FF41]" />
-                <span>Showreel Edition 2026</span>
-              </div>
-            </div>
-
-            {/* Middle Hero Showcase inside Portal */}
-            <div className="my-auto py-6 sm:py-8">
-              <div className="max-w-3xl">
-                <p className="text-xs sm:text-sm md:text-base font-semibold text-[#00FF41] uppercase tracking-wider mb-2">
-                  Vision • Motion • Rhythm
-                </p>
-                <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white uppercase font-sans">
-                  Crafting Visuals That <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-400">Command Attention.</span>
-                </h2>
-                <p className="mt-3 sm:mt-4 text-xs sm:text-base md:text-lg text-gray-300 max-w-2xl leading-relaxed">
-                  Every cut is deliberate. Every keyframe has purpose. Transforming high-velocity ideas into festival-grade motion graphics and viral commercials.
-                </p>
-              </div>
-
-              {/* 3 Showcase Feature Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mt-6 sm:mt-10">
-                {/* Card 1 */}
-                <div className="portal-card bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300">
-                  <div className="w-10 h-10 rounded-xl bg-[#00FF41]/10 border border-[#00FF41]/30 flex items-center justify-center text-[#00FF41] mb-3 sm:mb-4">
-                    <Eye className="w-5 h-5" />
-                  </div>
-                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">
-                    01 • Direction
-                  </div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1.5">
-                    Rhythmic Pacing
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-400 leading-snug">
-                    Hooking viewers in the first 2.5 seconds with seamless sync between sound and frame.
-                  </p>
-                </div>
-
-                {/* Card 2 */}
-                <div className="portal-card bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300">
-                  <div className="w-10 h-10 rounded-xl bg-[#00E5FF]/10 border border-[#00E5FF]/30 flex items-center justify-center text-[#00E5FF] mb-3 sm:mb-4">
-                    <Layers className="w-5 h-5" />
-                  </div>
-                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">
-                    02 • 3D &amp; VFX
-                  </div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1.5">
-                    Spatial Motion
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-400 leading-snug">
-                    Kinetic typography, holographic UI graphics, and cinematic 3D camera projections.
-                  </p>
-                </div>
-
-                {/* Card 3 */}
-                <div className="portal-card bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 md:p-6 transition-all duration-300">
-                  <div className="w-10 h-10 rounded-xl bg-[#F5FF00]/10 border border-[#F5FF00]/30 flex items-center justify-center text-[#F5FF00] mb-3 sm:mb-4">
-                    <Film className="w-5 h-5" />
-                  </div>
-                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">
-                    03 • Color Grade
-                  </div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1.5">
-                    Hollywood Tonal
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-400 leading-snug">
-                    Bespoke color contrast science tailored to give footage an instant cinematic prestige.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Bar inside Portal: Shows scroll direction indicator */}
-            <div className="border-t border-white/10 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
-              <div className="flex items-center gap-2">
-                <span className="text-white font-medium">Keep scrolling</span>
-                <span className="text-gray-500">•</span>
-                <span>Section collapses back to &ldquo;O&rdquo;</span>
-                <ArrowDown className="w-3.5 h-3.5 text-[#00FF41] animate-bounce" />
-              </div>
-
-              <div className="flex items-center gap-4">
-                <a
-                  href="/store"
-                  className="inline-flex items-center gap-1.5 text-[#00FF41] hover:underline font-bold"
-                >
-                  <span>Explore Assets &amp; Presets</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </div>
