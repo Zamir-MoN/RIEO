@@ -311,46 +311,26 @@ export function TextHoverSection() {
           },
         });
 
-        // 1. Expand top & bottom to fill full screen height + full bleed
-        tl.to(cardWrap, {
-          paddingLeft: 0,
-          paddingRight: 0,
-          duration: 1,
-          ease: "power2.inOut",
-        }, 0);
-
+        // 1. Expand top & bottom only (keep side margins & rounded corners intact)
         tl.to(
           card,
           {
             minHeight: () => window.innerHeight,
-            borderRadius: 0,
             duration: 1,
             ease: "power2.inOut",
           },
           0
         );
 
-        // 2. Brief hold at full expanded size
+        // 2. Brief hold at full expanded height
         tl.to({}, { duration: 0.45 });
 
-        // 3. Reduce back to normal card size before revealing Contact / Footer
-        tl.to(cardWrap, {
-          paddingLeft: 10,
-          paddingRight: 10,
+        // 3. Reduce top & bottom back to normal card height
+        tl.to(card, {
+          minHeight: baseHeight,
           duration: 1,
           ease: "power2.inOut",
         });
-
-        tl.to(
-          card,
-          {
-            minHeight: baseHeight,
-            borderRadius: 32,
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "<"
-        );
       });
 
       return () => mm.revert();
