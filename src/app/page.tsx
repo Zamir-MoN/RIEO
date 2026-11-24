@@ -1,7 +1,5 @@
 import { JourneyTimeline } from "@/components/ui/journey-timeline";
-import { HorizontalScrollServices } from "@/components/ui/horizontal-scroll-services";
 import { HeroAnimatedSection } from "@/components/ui/hero-animated-section";
-
 import { TextHoverSection } from "@/components/ui/text-hover-section";
 
 export default function Home() {
@@ -15,11 +13,6 @@ export default function Home() {
       {/* Journey Timeline Section / Services */}
       <section id="services">
         <JourneyTimeline />
-      </section>
-
-      {/* Services/Workflow Preview (Horizontal Scroll) / Works */}
-      <section id="works" className="w-full bg-[#050505]">
-        <HorizontalScrollServices />
       </section>
 
       {/* Interactive Typography Section */}

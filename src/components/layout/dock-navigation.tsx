@@ -31,7 +31,6 @@ export function DockNavigation() {
   const dockItems = [
     { icon: <Home size={18} />, label: 'Home', onClick: () => navigateWithTransition('/#home') },
     { icon: <Briefcase size={18} />, label: 'Services', onClick: () => navigateWithTransition('/#services') },
-    { icon: <Video size={18} />, label: 'Works', onClick: () => navigateWithTransition('/#works') },
     { icon: <ShoppingBag size={18} />, label: 'Store', onClick: () => navigateWithTransition('/store') },
   ];
 
