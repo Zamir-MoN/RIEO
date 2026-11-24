@@ -112,15 +112,16 @@ export function JourneyTimeline() {
       strokeDashoffset: length,
     });
 
-    // Animate the line drawing
+    // Animate the line drawing smoothly with scroll
     gsap.to(pathRef.current, {
       strokeDashoffset: 0,
       ease: "none",
       scrollTrigger: {
         trigger: svgContainerRef.current,
-        start: "top 80%", 
-        end: "bottom 80%", 
-        scrub: 1, 
+        start: "top 75%", 
+        end: "bottom 75%", 
+        scrub: 0.45,
+        invalidateOnRefresh: true,
       }
     });
 
@@ -297,15 +298,22 @@ export function JourneyTimeline() {
             <path 
               d={svgPath}
               fill="none" 
-              stroke="rgba(0,0,0,0.06)" 
-              strokeWidth="4" 
+              stroke="rgba(0,0,0,0.08)" 
+              strokeWidth="14" 
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
             />
             <path 
               ref={pathRef}
               d={svgPath}
               fill="none" 
-              stroke="black" 
-              strokeWidth="4" 
+              stroke="#0A0A0A" 
+              strokeWidth="14" 
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+              style={{ willChange: "stroke-dashoffset" }}
             />
           </svg>
 
