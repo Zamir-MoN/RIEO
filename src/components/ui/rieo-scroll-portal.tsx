@@ -69,7 +69,7 @@ export function RieoScrollPortal() {
         width: m.w,
         height: m.h,
         borderRadius: m.radius,
-        borderWidth: 1,
+        borderWidth: 6,
         opacity: 0,
         pointerEvents: "none",
         force3D: true,
@@ -223,7 +223,7 @@ export function RieoScrollPortal() {
           width: () => getOMetrics().w,
           height: () => getOMetrics().h,
           borderRadius: () => getOMetrics().radius,
-          borderWidth: 1,
+          borderWidth: 6,
           duration: 1.3,
           ease: "power3.inOut",
         },
@@ -328,7 +328,7 @@ export function RieoScrollPortal() {
         */}
         <div
           ref={portalRef}
-          className="absolute z-30 overflow-hidden bg-[#0A0A0A] border border-white/20 will-change-[width,height,left,top,border-radius,opacity]"
+          className="absolute z-30 overflow-hidden bg-[#0A0A0A] border-solid border-white will-change-[width,height,left,top,border-radius,opacity]"
         >
           {/* Background Video inside the Portal */}
           <div className="absolute inset-0 z-0 pointer-events-none">
