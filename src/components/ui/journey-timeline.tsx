@@ -191,8 +191,8 @@ export function JourneyTimeline() {
   const svgPath = "M 500 0 C 80 0, 80 175, 80 350 C 80 575, 920 575, 920 800 C 920 1025, 80 1025, 80 1250 C 80 1475, 920 1475, 920 1700 C 920 1925, 80 1925, 80 2150 C 80 2375, 920 2375, 920 2600 C 920 2800, 500 2950, 500 2950";
 
   return (
-    <section ref={containerRef} className="relative w-full bg-[#050505] flex flex-col items-center justify-center py-12 md:py-20 px-3 sm:px-6 lg:px-8">
-      <div ref={innerRef} className="relative w-full max-w-[1500px] mx-auto bg-[#D5D1C3] text-[#1A1A1A] flex flex-col lg:flex-row rounded-[2rem] md:rounded-[3.5rem] shadow-2xl">
+    <section ref={containerRef} className="relative w-full bg-[#050505] py-6 sm:py-10 md:py-16">
+      <div ref={innerRef} className="relative w-full bg-[#D5D1C3] text-[#1A1A1A] flex flex-col lg:flex-row rounded-t-[2.5rem] md:rounded-t-[4rem] rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-2xl">
       
       {/* Left Sidebar Column - Sticky in the vertical middle of the screen */}
       <div className="hidden lg:block w-[280px] xl:w-[310px] 2xl:w-[340px] shrink-0 self-stretch relative pl-4 lg:pl-6 pb-20 pointer-events-none">
