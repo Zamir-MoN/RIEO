@@ -10,21 +10,33 @@ if (typeof window !== "undefined") {
 }
 
 const GALLERY_COLUMNS = [
+  // Column 1: Moves UP -> DOWN on scroll
   [
     { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[3/4]" },
+    { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[4/5]" },
   ],
+  // Column 2: Moves DOWN -> UP on scroll
   [
     { src: "/thumbnails/thumb3.jpg", alt: "Editorial Frame 03", aspect: "aspect-[3/4]" },
-    { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[4/5]" },
+    { src: "/hero-bg-2.mp4", alt: "Motion Loop", aspect: "aspect-[3/4]", isVideo: true },
+    { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[4/5]" },
   ],
+  // Column 3: Moves UP -> DOWN on scroll
   [
     { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb3.jpg", alt: "Editorial Frame 03", aspect: "aspect-[3/4]" },
   ],
+  // Column 4: Moves DOWN -> UP on scroll
   [
     { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[3/4]" },
     { src: "/hero-bg-2.mp4", alt: "Motion Loop", aspect: "aspect-[4/5]", isVideo: true },
+    { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[4/5]" },
   ],
 ];
 
@@ -38,7 +50,7 @@ export function RieoScrollPortal() {
   const oRef = useRef<HTMLSpanElement>(null);
   const portalRef = useRef<HTMLDivElement>(null);
   const portalContentRef = useRef<HTMLDivElement>(null);
-  const innerScrollRef = useRef<HTMLDivElement>(null);
+  const colRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(
     () => {
@@ -51,20 +63,8 @@ export function RieoScrollPortal() {
       const o = oRef.current;
       const portal = portalRef.current;
       const content = portalContentRef.current;
-      const innerScroll = innerScrollRef.current;
 
-      if (
-        !container ||
-        !stage ||
-        !word ||
-        !r ||
-        !i ||
-        !e ||
-        !o ||
-        !portal ||
-        !content ||
-        !innerScroll
-      )
+      if (!container || !stage || !word || !r || !i || !e || !o || !portal || !content)
         return;
 
       // Calculate exact metrics of "O" relative to stage container (measuring unshifted word)
@@ -91,8 +91,9 @@ export function RieoScrollPortal() {
         return { w, h, radius, oCenterX, oCenterY, stageCenterX, shiftToCenterX };
       };
 
-      const getMaxInnerScroll = () => {
-        return Math.max(0, innerScroll.scrollHeight - stage.clientHeight);
+      const getColTravel = (col: HTMLDivElement | null) => {
+        if (!col) return 400;
+        return Math.max(260, col.scrollHeight - stage.clientHeight);
       };
 
       // Set initial state: portal sits at the horizontal center where "O" slides to
@@ -117,9 +118,16 @@ export function RieoScrollPortal() {
         force3D: true,
       });
 
-      gsap.set(innerScroll, {
-        y: 0,
-        force3D: true,
+      // Set alternating initial column positions:
+      // Col 0 & Col 2 (1st & 3rd): start shifted up so they move UP -> DOWN
+      // Col 1 & Col 3 (2nd & 4th): start at 0 so they move DOWN -> UP
+      colRefs.current.forEach((col, idx) => {
+        if (!col) return;
+        const isUpToDown = idx % 2 === 0;
+        gsap.set(col, {
+          y: isUpToDown ? -getColTravel(col) : 0,
+          force3D: true,
+        });
       });
 
       // Scrubbed GSAP timeline
@@ -229,20 +237,26 @@ export function RieoScrollPortal() {
       );
 
       /* ============================================================
-         PHASE 3: SCROLL GALLERY INSIDE PORTAL (1.95 -> 3.45)
+         PHASE 3: 4-COLUMN ALTERNATING SCROLL (1.95 -> 3.65)
+         - Col 1 & 3: UP -> DOWN (from -travel to 0)
+         - Col 2 & 4: DOWN -> UP (from 0 to -travel)
          ============================================================ */
-      tl.to(
-        innerScroll,
-        {
-          y: () => -getMaxInnerScroll(),
-          duration: 1.5,
-          ease: "none",
-        },
-        1.95
-      );
+      colRefs.current.forEach((col, idx) => {
+        if (!col) return;
+        const isUpToDown = idx % 2 === 0;
+        tl.to(
+          col,
+          {
+            y: () => (isUpToDown ? 0 : -getColTravel(col)),
+            duration: 1.7,
+            ease: "none",
+          },
+          1.95
+        );
+      });
 
       /* ============================================================
-         PHASE 4: REDUCE BACK INTO CENTERED "O" (3.45 -> 4.65)
+         PHASE 4: REDUCE BACK INTO CENTERED "O" (3.65 -> 4.85)
          ============================================================ */
       tl.to(
         content,
@@ -252,7 +266,7 @@ export function RieoScrollPortal() {
           duration: 0.55,
           ease: "power2.in",
         },
-        3.45
+        3.65
       );
 
       tl.to(
@@ -267,13 +281,13 @@ export function RieoScrollPortal() {
           duration: 1.15,
           ease: "power3.inOut",
         },
-        3.55
+        3.75
       );
 
       /* ============================================================
-         PHASE 5: RESTORE "O" & SLIDE "RIEO" BACK (4.65 -> 5.50)
+         PHASE 5: RESTORE "O" & SLIDE "RIEO" BACK (4.85 -> 5.70)
          ============================================================ */
-      tl.set(portal, { pointerEvents: "none" }, 4.7);
+      tl.set(portal, { pointerEvents: "none" }, 4.9);
 
       tl.to(
         o,
@@ -282,7 +296,7 @@ export function RieoScrollPortal() {
           duration: 0.25,
           ease: "none",
         },
-        4.65
+        4.85
       );
 
       tl.to(
@@ -292,7 +306,7 @@ export function RieoScrollPortal() {
           duration: 0.25,
           ease: "none",
         },
-        4.65
+        4.85
       );
 
       tl.to(
@@ -302,7 +316,7 @@ export function RieoScrollPortal() {
           duration: 0.75,
           ease: "power3.inOut",
         },
-        4.75
+        4.95
       );
 
       tl.to(
@@ -314,7 +328,7 @@ export function RieoScrollPortal() {
           duration: 0.55,
           ease: "power2.out",
         },
-        4.9
+        5.1
       );
 
       // Brief lock before unpinning
@@ -326,7 +340,7 @@ export function RieoScrollPortal() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[430vh] bg-[#050505] text-white selection:bg-white selection:text-black"
+      className="relative w-full h-[450vh] bg-[#050505] text-white selection:bg-white selection:text-black"
     >
       {/* Sticky Fullscreen Stage: Stays centered in viewport during scroll */}
       <div
@@ -370,52 +384,45 @@ export function RieoScrollPortal() {
             ref={portalContentRef}
             className="relative w-full h-full overflow-hidden pointer-events-auto will-change-[transform,opacity]"
           >
-            <div ref={innerScrollRef} className="w-full will-change-transform">
-              {/* 4-Column Staggered Masonry Media Gallery */}
-              <div className="w-full px-3 sm:px-5 md:px-6 pt-3 pb-10 sm:pb-14">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-                  {GALLERY_COLUMNS.map((col, colIdx) => (
-                    <div
-                      key={colIdx}
-                      className={`flex flex-col gap-3 sm:gap-4 ${
-                        colIdx === 1
-                          ? "pt-8 sm:pt-14"
-                          : colIdx === 2
-                          ? "-mt-4 sm:-mt-6"
-                          : colIdx === 3
-                          ? "pt-12 sm:pt-20"
-                          : ""
-                      }`}
-                    >
-                      {col.map((item, itemIdx) => (
-                        <div
-                          key={itemIdx}
-                          className={`group relative w-full ${item.aspect} rounded-xl sm:rounded-2xl overflow-hidden bg-zinc-900 border border-white/5`}
-                        >
-                          {item.isVideo ? (
-                            <video
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                              preload="auto"
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            >
-                              <source src={item.src} type="video/mp4" />
-                            </video>
-                          ) : (
-                            <img
-                              src={item.src}
-                              alt={item.alt}
-                              loading="eager"
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+            {/* 4-Column Alternating Scroll Masonry Gallery */}
+            <div className="w-full h-full px-3 sm:px-5 md:px-6 overflow-hidden">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 h-full items-start">
+                {GALLERY_COLUMNS.map((col, colIdx) => (
+                  <div
+                    key={colIdx}
+                    ref={(el) => {
+                      colRefs.current[colIdx] = el;
+                    }}
+                    className="flex flex-col gap-3 sm:gap-4 py-3 will-change-transform"
+                  >
+                    {col.map((item, itemIdx) => (
+                      <div
+                        key={itemIdx}
+                        className={`group relative w-full ${item.aspect} rounded-xl sm:rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shrink-0`}
+                      >
+                        {item.isVideo ? (
+                          <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          >
+                            <source src={item.src} type="video/mp4" />
+                          </video>
+                        ) : (
+                          <img
+                            src={item.src}
+                            alt={item.alt}
+                            loading="eager"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
