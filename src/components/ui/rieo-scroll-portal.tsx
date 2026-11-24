@@ -386,7 +386,7 @@ export function RieoScrollPortal() {
             noise={0.08}
             parallax={0.5}
             iterations={1}
-            intensity={1.5}
+            intensity={1.05}
             bandWidth={6}
             transparent
           />
@@ -396,6 +396,11 @@ export function RieoScrollPortal() {
         <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none select-none">
           <div
             ref={wordRef}
+            style={{
+              textShadow: "0 4px 28px rgba(0,0,0,0.95), 0 0 60px rgba(0,0,0,0.85)",
+              WebkitTextStroke: "2px rgba(5,5,5,0.7)",
+              paintOrder: "stroke fill",
+            }}
             className="flex items-center justify-center font-custom tracking-normal text-[clamp(5.2rem,22vw,14rem)] leading-none text-white will-change-transform"
           >
             <span ref={rRef} className="inline-block will-change-transform">
