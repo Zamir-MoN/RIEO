@@ -45,7 +45,7 @@ export default function Home() {
         </section>
 
         {/* Interactive Platforms Card rising over the same ColorBends background */}
-        <section id="typography" className="relative z-20 w-full">
+        <section id="typography" className="relative z-20 w-full -mt-[75dvh] sm:-mt-[80dvh]">
           <TextHoverSection />
         </section>
       </div>
