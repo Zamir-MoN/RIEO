@@ -16,6 +16,10 @@ const GALLERY_COLUMNS = [
     { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[3/4]" },
     { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb3.jpg", alt: "Editorial Frame 03", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[4/5]" },
   ],
   // Column 2: Moves DOWN -> UP on scroll
   [
@@ -23,6 +27,10 @@ const GALLERY_COLUMNS = [
     { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[4/5]" },
     { src: "/hero-bg-2.mp4", alt: "Motion Loop", aspect: "aspect-[3/4]", isVideo: true },
     { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
+    { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[4/5]" },
   ],
   // Column 3: Moves UP -> DOWN on scroll
   [
@@ -30,6 +38,10 @@ const GALLERY_COLUMNS = [
     { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb3.jpg", alt: "Editorial Frame 03", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
+    { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[3/4]" },
   ],
   // Column 4: Moves DOWN -> UP on scroll
   [
@@ -37,6 +49,10 @@ const GALLERY_COLUMNS = [
     { src: "/hero-bg-2.mp4", alt: "Motion Loop", aspect: "aspect-[4/5]", isVideo: true },
     { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb3.jpg", alt: "Editorial Frame 03", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[4/5]" },
   ],
 ];
 
@@ -92,8 +108,8 @@ export function RieoScrollPortal() {
       };
 
       const getColTravel = (col: HTMLDivElement | null) => {
-        if (!col) return 400;
-        return Math.max(260, col.scrollHeight - stage.clientHeight);
+        if (!col) return 0;
+        return Math.max(0, col.scrollHeight - stage.clientHeight);
       };
 
       // Set initial state: portal sits at the horizontal center where "O" slides to

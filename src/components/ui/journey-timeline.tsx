@@ -264,13 +264,13 @@ export function JourneyTimeline() {
         </div>
 
         {/* Right Content */}
-        <div className="flex-1 relative overflow-hidden pb-32 md:pb-40">
+        <div className="flex-1 relative overflow-hidden pb-4 sm:pb-8 lg:pb-40">
 
           {/* Blurry Gradient Blob */}
           <div className="absolute top-[10%] left-[20%] w-[600px] h-[600px] bg-black/5 blur-[120px] rounded-full pointer-events-none" />
 
           {/* Header */}
-          <div className="pt-12 md:pt-16 lg:pt-20 px-6 md:px-12 lg:px-16 mb-12 md:mb-16 relative z-10">
+          <div className="pt-8 sm:pt-12 md:pt-16 lg:pt-20 px-4 sm:px-6 md:px-12 lg:px-16 mb-6 sm:mb-12 md:mb-16 relative z-10">
             <div className="overflow-hidden pb-3">
               <h2 className="timeline-header-text text-[clamp(2.5rem,5vw,5.5rem)] font-black tracking-tighter leading-[0.95] text-black">
                 Services (&) <br /> Expertise
@@ -284,7 +284,7 @@ export function JourneyTimeline() {
           </div>
 
         {/* Mobile Landscape 2-Column Compact Grid */}
-        <div className="lg:hidden grid grid-cols-2 gap-2.5 sm:gap-4 px-3 sm:px-6 pb-8 relative z-10">
+        <div className="lg:hidden grid grid-cols-2 gap-2.5 sm:gap-4 px-3 sm:px-6 pb-2 relative z-10">
           {timelineData.map((item, i) => (
             <div
               key={i}
@@ -301,47 +301,69 @@ export function JourneyTimeline() {
                   {item.desc}
                 </p>
               </div>
-              <div className="flex items-center justify-between pt-2 mt-2 border-t border-black/5">
-                <span className="text-[9px] sm:text-[10px] font-bold text-gray-700">@creative</span>
-                <span className="px-2 py-0.5 bg-[#F0EEE6] text-black text-[9px] font-bold rounded-md">
-                  Read
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* Desktop Timeline Area */}
-        <div ref={svgContainerRef} className="hidden lg:block relative w-full h-[3000px]">
-          
-          {/* SVG Animated Line (Desktop) */}
-          <svg 
-            className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
-            viewBox="0 0 1000 3000"
-            preserveAspectRatio="none"
-          >
-            <path 
-              d={svgPath}
-              fill="none" 
-              stroke="rgba(0,0,0,0.08)" 
-              strokeWidth="14" 
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path 
-              ref={pathRef}
-              d={svgPath}
-              pathLength={1}
-              strokeDasharray={1}
-              strokeDashoffset={1}
-              fill="none" 
-              stroke="#0A0A0A" 
-              strokeWidth="14" 
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{ willChange: "stroke-dashoffset" }}
-            />
-          </svg>
+          {/* Desktop Timeline Area */}
+          <div ref={svgContainerRef} className="hidden lg:block relative w-full h-[3000px]">
+
+            {/* SVG Animated Line (Desktop) */}
+            <svg
+              className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+              viewBox="0 0 1000 3000"
+              preserveAspectRatio="none"
+            >
+              <path
+                d={svgPath}
+                fill="none"
+                stroke="rgba(0,0,0,0.08)"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                ref={pathRef}
+                d={svgPath}
+                pathLength={1}
+                strokeDasharray={1}
+                strokeDashoffset={1}
+                fill="none"
+                stroke="#0A0A0A"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ willChange: "stroke-dashoffset" }}
+              />
+            </svg>
+
+            {/* SVG Animated Line (Desktop) */}
+            <svg
+              className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+              viewBox="0 0 1000 3000"
+              preserveAspectRatio="none"
+            >
+              <path
+                d={svgPath}
+                fill="none"
+                stroke="rgba(0,0,0,0.08)"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                ref={pathRef}
+                d={svgPath}
+                pathLength={1}
+                strokeDasharray={1}
+                strokeDashoffset={1}
+                fill="none"
+                stroke="#0A0A0A"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ willChange: "stroke-dashoffset" }}
+              />
+            </svg>
 
             {/* SVG Animated Line (Desktop) */}
             <svg
