@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { PlaySquare, Type, Video, Megaphone, Scissors, Sparkles, Copy, Check } from "lucide-react";
+import { PlaySquare, Type, Video, Megaphone, Scissors, Sparkles, Copy, Check, ChevronDown } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -92,6 +92,7 @@ export function JourneyTimeline() {
   const pathRef = useRef<SVGPathElement>(null);
   const svgContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState<number>(0);
   const [copied, setCopied] = useState(false);
 
   const scrollToCard = (index: number) => {
@@ -283,26 +284,93 @@ export function JourneyTimeline() {
             </div>
           </div>
 
-          {/* Mobile Landscape 2-Column Compact Grid */}
-          <div className="lg:hidden grid grid-cols-2 gap-2.5 sm:gap-4 px-3 sm:px-6 pb-2 relative z-10">
-            {timelineData.map((item, i) => (
-              <div
-                key={i}
-                className="bg-[#E3E1D9] p-3 sm:p-5 rounded-2xl shadow-lg border border-white/30 flex flex-col justify-between"
-              >
+          {/* Mobile Redesigned UI: Stats Strip + Interactive Service Accordion */}
+          <div className="lg:hidden px-4 sm:px-6 pb-4 relative z-10 flex flex-col gap-4">
+            {/* Compact Stats & Quick CTA Bar */}
+            <div className="flex items-center justify-between gap-2 bg-[#141414] text-white rounded-2xl p-3 shadow-lg">
+              <div className="flex items-center gap-3.5 pl-1">
                 <div>
-                  <h3 className="text-2xl sm:text-4xl font-black text-[#E2F163] tracking-tighter leading-none mb-1 tabular-nums">
-                    {item.year}
-                  </h3>
-                  <h4 className="text-xs sm:text-base font-black text-black mb-1 tracking-tight leading-snug">
-                    {item.title}
-                  </h4>
-                  <p className="text-gray-700 text-[10px] sm:text-xs leading-snug font-medium line-clamp-3">
-                    {item.desc}
-                  </p>
+                  <div className="text-base font-black leading-none tabular-nums">80+</div>
+                  <div className="text-[9px] font-bold uppercase tracking-wider text-gray-400 mt-0.5">Projects</div>
+                </div>
+                <div className="w-px h-6 bg-white/15" />
+                <div>
+                  <div className="text-base font-black text-[#E2F163] leading-none tabular-nums">3+</div>
+                  <div className="text-[9px] font-bold uppercase tracking-wider text-gray-400 mt-0.5">Years Exp</div>
                 </div>
               </div>
-            ))}
+
+              <a
+                href="mailto:contact@rieo.co"
+                className="bg-[#E2F163] text-black font-black uppercase tracking-wider text-[10px] px-3.5 py-2 rounded-xl shadow-sm active:scale-95 transition-transform"
+              >
+                Book a Call
+              </a>
+            </div>
+
+            {/* Interactive Service Rows */}
+            <div className="flex flex-col gap-2.5">
+              {timelineData.map((item, i) => {
+                const isOpen = mobileOpen === i;
+                return (
+                  <div
+                    key={i}
+                    onClick={() => setMobileOpen(isOpen ? -1 : i)}
+                    className={`rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden ${
+                      isOpen
+                        ? "bg-[#E8E5DC] border-black/15 shadow-md"
+                        : "bg-[#E3E1D9]/80 border-black/5 shadow-sm"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-3 p-3.5">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className="bg-[#141414] text-[#E2F163] font-black text-[11px] px-2.5 py-1 rounded-lg tabular-nums shrink-0">
+                          {item.year}
+                        </span>
+                        <span className="w-7 h-7 rounded-lg bg-black/[0.06] text-black flex items-center justify-center shrink-0">
+                          {item.icon}
+                        </span>
+                        <h4 className="text-sm font-black text-black tracking-tight truncate">
+                          {item.title}
+                        </h4>
+                      </div>
+                      <ChevronDown
+                        size={16}
+                        className={`text-black/60 shrink-0 transition-transform duration-300 ${
+                          isOpen ? "rotate-180 text-black" : ""
+                        }`}
+                      />
+                    </div>
+
+                    <div
+                      className={`grid transition-all duration-300 ease-out ${
+                        isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="px-3.5 pb-3.5 pt-0.5">
+                          <p className="text-xs text-gray-700 leading-relaxed font-medium">
+                            {item.desc}
+                          </p>
+                          <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-black/10">
+                            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                              RIEO Studio • @creative
+                            </span>
+                            <a
+                              href="mailto:contact@rieo.co"
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-[10px] font-black uppercase tracking-wider text-black bg-[#E2F163] px-2.5 py-1 rounded-lg"
+                            >
+                              Inquire →
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {/* Desktop Timeline Area */}
@@ -313,7 +381,7 @@ export function JourneyTimeline() {
               className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
               viewBox="0 0 1000 3000"
               preserveAspectRatio="none"
-              >
+            >
               <path
                 d={svgPath}
                 fill="none"
