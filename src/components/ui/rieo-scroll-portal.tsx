@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import ColorBends from "./color-bends";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -372,6 +373,25 @@ export function RieoScrollPortal() {
         ref={stageRef}
         className="sticky top-0 relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-[#050505]"
       >
+        {/* Interactive Reactive Shader Background */}
+        <div className="absolute inset-0 z-0">
+          <ColorBends
+            colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
+            rotation={90}
+            speed={0.2}
+            scale={1}
+            frequency={1}
+            warpStrength={1}
+            mouseInfluence={1}
+            noise={0.08}
+            parallax={0.5}
+            iterations={1}
+            intensity={1.5}
+            bandWidth={6}
+            transparent
+          />
+        </div>
+
         {/* Center Typography: "R I E O" */}
         <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none select-none">
           <div
