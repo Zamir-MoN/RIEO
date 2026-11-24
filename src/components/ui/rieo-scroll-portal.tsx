@@ -60,23 +60,25 @@ export function RieoScrollPortal() {
         return stageCenterX - oCenterX;
       };
 
-      // Exact mathematical vector geometry of the "O" in YFFRarePowerBlack:
-      // Aspect ratio = width / height = 1.625
-      // Radius = height / 2 (exact stadium pill matching Image 1)
+      // Exact pixel calibration to YFFRarePowerBlack font glyph:
+      // - Visible glyph width is 92.2% of container width (removing font side-bearings)
+      // - Visible glyph aspect ratio is exactly 1.71 (width / height = 1.71)
+      // - Optical vertical center is at 43% of container height (matching cap-height baseline)
       const getODimensions = () => {
-        const w = oContainer.offsetWidth || 180;
-        const h = w / 1.625;
+        const containerW = oContainer.offsetWidth || 180;
+        const w = containerW * 0.922;
+        const h = w / 1.71;
         const radius = h / 2;
         return { w, h, radius };
       };
 
-      // Set initial state of portalCard matching the "O" glyph shape with 100% precision
+      // Set initial state of portalCard matching the "O" glyph shape with 0.0px precision
       const oDim = getODimensions();
       gsap.set(portalCard, {
         width: oDim.w,
         height: oDim.h,
         borderRadius: oDim.radius,
-        top: "47%",
+        top: "43%",
         opacity: 0,
         pointerEvents: "none",
         force3D: true,
@@ -166,7 +168,7 @@ export function RieoScrollPortal() {
          PHASE 2: EXPANSION OF "O" INTO FULL SECTION (0.35 -> 1.00)
          - The stadium pill smoothly expands outward to 100vw x 100dvh.
          - Border-radius animates from pill radius to 0px.
-         - Top animates from 47% (glyph optical center) to 50% (screen center).
+         - Top animates from 43% (glyph optical center) to 50% (screen center).
          - Showcase content inside zooms in gracefully.
          ============================================================ */
       tl.to(
@@ -214,7 +216,7 @@ export function RieoScrollPortal() {
          - "the section reduce to O again"
          - Portal card shrinks back symmetrically into the exact "O" stadium pill!
          - Border-radius returns to radius = height / 2.
-         - Top returns to 47%.
+         - Top returns to 43%.
          - "O" character glyph returns.
          - "R", "I", "E" glide back in to complete "RIEO".
          ============================================================ */
@@ -236,7 +238,7 @@ export function RieoScrollPortal() {
           height: () => `${getODimensions().h}px`,
           borderRadius: () => `${getODimensions().radius}px`,
           borderWidth: 2,
-          top: "47%",
+          top: "43%",
           duration: 1.4,
           ease: "power3.inOut",
           onComplete: () => {
@@ -353,15 +355,15 @@ export function RieoScrollPortal() {
               {/* 
                 ============================================================
                 THE EXPANDING "O" PORTAL CARD
-                Exact stadium pill shape: Aspect Ratio 1.625, radius = h / 2.
-                Anchored directly to the optical center of the "O" (top: 47%, left: 50%).
+                Exact optical alignment: Top 43%, Width 92.2%, Ratio 1.71.
+                Anchored directly to the optical center of the "O" (top: 43%, left: 50%).
                 Expands outward symmetrically to 100vw x 100dvh,
                 then reduces symmetrically back into the exact "O" contour!
                 ============================================================
               */}
               <div
                 ref={portalCardRef}
-                className="absolute top-[47%] left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#0A0A0A] border-2 border-[#00FF41] shadow-[0_0_50px_rgba(0,255,65,0.4)] will-change-[width,height,border-radius,opacity,top] z-30"
+                className="absolute top-[43%] left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#0A0A0A] border-2 border-[#00FF41] shadow-[0_0_50px_rgba(0,255,65,0.4)] will-change-[width,height,border-radius,opacity,top] z-30"
               >
                 {/* Background Video inside the Portal */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
