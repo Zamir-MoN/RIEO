@@ -22,7 +22,7 @@ export default function StoreLoading() {
         </div>
 
         {/* Grid Skeleton */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 relative z-10">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="group relative rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/5 shadow-2xl flex flex-col">
               {/* Video Skeleton */}

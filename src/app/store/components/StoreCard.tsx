@@ -36,7 +36,7 @@ Price: **₹${product.price.replace(/^[^0-9]+/, '')}**`;
   return (
     <div 
       onClick={handleCardClick}
-      className="group relative rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/5 hover:border-white/20 transition-all duration-500 cursor-pointer shadow-2xl aspect-[3/4] sm:aspect-[4/5] w-full flex flex-col justify-end"
+      className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-[#0A0A0A] border border-white/5 hover:border-white/20 transition-all duration-500 cursor-pointer shadow-2xl aspect-[3/4] sm:aspect-[4/5] w-full flex flex-col justify-end"
     >
       
       {/* Media Background */}
@@ -77,27 +77,27 @@ Price: **₹${product.price.replace(/^[^0-9]+/, '')}**`;
       </div>
 
       {/* Category Badge */}
-      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
-        <span className="bg-black/60 backdrop-blur-md text-white text-[9px] sm:text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-full border border-white/10 shadow-lg">
+      <div className="absolute top-2.5 left-2.5 sm:top-6 sm:left-6 z-20">
+        <span className="bg-black/60 backdrop-blur-md text-white text-[8px] sm:text-[10px] uppercase tracking-widest font-bold px-2 py-1 sm:px-3 sm:py-1.5 rounded-full border border-white/10 shadow-lg">
           {product.category}
         </span>
       </div>
 
       {/* Card Content Overlay */}
-      <div className="p-5 sm:p-8 flex flex-col gap-3 relative z-20 bg-gradient-to-t from-black via-black/80 to-transparent pt-24">
-        <div className="flex justify-between items-end gap-3">
+      <div className="p-3 sm:p-8 flex flex-col gap-2 sm:gap-3 relative z-20 bg-gradient-to-t from-black via-black/80 to-transparent pt-12 sm:pt-24">
+        <div className="flex justify-between items-end gap-2 sm:gap-3">
           <div className="flex-1 min-w-0">
-            <h3 className="text-xl sm:text-2xl font-bold font-heading text-white group-hover:text-gray-200 transition-colors leading-tight mb-1 truncate">
+            <h3 className="text-xs sm:text-xl md:text-2xl font-bold font-heading text-white group-hover:text-gray-200 transition-colors leading-tight mb-0.5 sm:mb-1 truncate">
               {product.title}
             </h3>
             {product.description && (
-              <p className="text-xs sm:text-sm text-gray-300 line-clamp-2">
+              <p className="text-[10px] sm:text-sm text-gray-300 line-clamp-1 sm:line-clamp-2">
                 {product.description}
               </p>
             )}
           </div>
-          <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/20 shrink-0 flex items-center justify-center shadow-xl mb-1">
-            <span className="text-white text-sm sm:text-base font-bold tracking-wider">₹{product.price.replace(/^[^0-9]+/, '')}</span>
+          <div className="bg-white/10 backdrop-blur-md px-2 py-1 sm:px-3 sm:py-1.5 rounded-md sm:rounded-lg border border-white/20 shrink-0 flex items-center justify-center shadow-xl mb-0.5 sm:mb-1">
+            <span className="text-white text-[10px] sm:text-base font-bold tracking-wider">₹{product.price.replace(/^[^0-9]+/, '')}</span>
           </div>
         </div>
         
@@ -106,10 +106,10 @@ Price: **₹${product.price.replace(/^[^0-9]+/, '')}**`;
           target="_blank" 
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="w-full py-3 mt-1 rounded-xl bg-white text-black font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+          className="w-full py-2 sm:py-3 mt-0.5 sm:mt-1 rounded-lg sm:rounded-xl bg-white text-black font-bold uppercase tracking-widest text-[10px] sm:text-sm hover:bg-gray-200 transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 group/btn"
         >
           <span>Buy Now</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4 transform group-hover/btn:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
