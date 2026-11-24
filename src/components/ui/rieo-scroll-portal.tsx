@@ -28,15 +28,6 @@ const GALLERY_COLUMNS = [
   ],
 ];
 
-const MENU_ITEMS = [
-  { label: "HOME", href: "/" },
-  { label: "SERVICES", href: "/#services" },
-  { label: "STORE", href: "/store" },
-  { label: "REEL", href: "/#typography" },
-  { label: "ACCOUNT", href: "/admin" },
-  { label: "LOGIN", href: "/login" },
-];
-
 export function RieoScrollPortal() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -238,20 +229,20 @@ export function RieoScrollPortal() {
       );
 
       /* ============================================================
-         PHASE 3: SCROLL GALLERY -> GIANT STACKED MENU (1.95 -> 4.20)
+         PHASE 3: SCROLL GALLERY INSIDE PORTAL (1.95 -> 3.45)
          ============================================================ */
       tl.to(
         innerScroll,
         {
           y: () => -getMaxInnerScroll(),
-          duration: 2.25,
+          duration: 1.5,
           ease: "none",
         },
         1.95
       );
 
       /* ============================================================
-         PHASE 4: REDUCE BACK INTO CENTERED "O" (4.20 -> 5.40)
+         PHASE 4: REDUCE BACK INTO CENTERED "O" (3.45 -> 4.65)
          ============================================================ */
       tl.to(
         content,
@@ -261,7 +252,7 @@ export function RieoScrollPortal() {
           duration: 0.55,
           ease: "power2.in",
         },
-        4.2
+        3.45
       );
 
       tl.to(
@@ -276,13 +267,13 @@ export function RieoScrollPortal() {
           duration: 1.15,
           ease: "power3.inOut",
         },
-        4.3
+        3.55
       );
 
       /* ============================================================
-         PHASE 5: RESTORE "O" & SLIDE "RIEO" BACK (5.40 -> 6.25)
+         PHASE 5: RESTORE "O" & SLIDE "RIEO" BACK (4.65 -> 5.50)
          ============================================================ */
-      tl.set(portal, { pointerEvents: "none" }, 5.45);
+      tl.set(portal, { pointerEvents: "none" }, 4.7);
 
       tl.to(
         o,
@@ -291,7 +282,7 @@ export function RieoScrollPortal() {
           duration: 0.25,
           ease: "none",
         },
-        5.4
+        4.65
       );
 
       tl.to(
@@ -301,7 +292,7 @@ export function RieoScrollPortal() {
           duration: 0.25,
           ease: "none",
         },
-        5.4
+        4.65
       );
 
       tl.to(
@@ -311,7 +302,7 @@ export function RieoScrollPortal() {
           duration: 0.75,
           ease: "power3.inOut",
         },
-        5.5
+        4.75
       );
 
       tl.to(
@@ -323,7 +314,7 @@ export function RieoScrollPortal() {
           duration: 0.55,
           ease: "power2.out",
         },
-        5.65
+        4.9
       );
 
       // Brief lock before unpinning
@@ -335,7 +326,7 @@ export function RieoScrollPortal() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[520vh] bg-[#050505] text-white selection:bg-white selection:text-black"
+      className="relative w-full h-[430vh] bg-[#050505] text-white selection:bg-white selection:text-black"
     >
       {/* Sticky Fullscreen Stage: Stays centered in viewport during scroll */}
       <div
@@ -380,8 +371,8 @@ export function RieoScrollPortal() {
             className="relative w-full h-full overflow-hidden pointer-events-auto will-change-[transform,opacity]"
           >
             <div ref={innerScrollRef} className="w-full will-change-transform">
-              {/* PART 1: 4-Column Staggered Masonry Media Gallery */}
-              <div className="w-full px-3 sm:px-5 md:px-6 pt-3 pb-14 sm:pb-20">
+              {/* 4-Column Staggered Masonry Media Gallery */}
+              <div className="w-full px-3 sm:px-5 md:px-6 pt-3 pb-10 sm:pb-14">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                   {GALLERY_COLUMNS.map((col, colIdx) => (
                     <div
@@ -424,49 +415,6 @@ export function RieoScrollPortal() {
                       ))}
                     </div>
                   ))}
-                </div>
-              </div>
-
-              {/* PART 2: Giant Bold Stacked Navigation Menu + Rotating Stamp */}
-              <div className="relative w-full min-h-[85dvh] flex flex-col justify-end px-6 sm:px-10 md:px-14 pb-20 sm:pb-24 pt-8">
-                <nav
-                  aria-label="Portal Navigation"
-                  className="flex flex-col items-start select-none"
-                >
-                  {MENU_ITEMS.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className="font-sans font-black uppercase tracking-tight leading-[0.88] text-[clamp(2.8rem,8.8vw,7.4rem)] text-[#3F3F44] hover:text-white transition-colors duration-300"
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </nav>
-
-                {/* Bottom-Right Rotating Circular Stamp */}
-                <div className="absolute bottom-14 right-6 sm:bottom-20 sm:right-12 w-24 h-24 sm:w-28 sm:h-28 pointer-events-none select-none">
-                  <svg
-                    viewBox="0 0 120 120"
-                    className="w-full h-full animate-[spin_14s_linear_infinite]"
-                  >
-                    <defs>
-                      <path
-                        id="rieo-circle-badge"
-                        d="M 60, 60 m -42, 0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"
-                      />
-                    </defs>
-                    <text
-                      fill="#FFFFFF"
-                      fontSize="10.5"
-                      fontWeight="900"
-                      letterSpacing="2.8"
-                    >
-                      <textPath href="#rieo-circle-badge" startOffset="0%">
-                        PORTFOLIO • RIEO • STUDIO •
-                      </textPath>
-                    </text>
-                  </svg>
                 </div>
               </div>
             </div>
