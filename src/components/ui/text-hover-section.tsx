@@ -1,8 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { DistortedHoverText } from "./distorted-hover-text";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Official Scalable SVG Brand Logos
 function PremiereProLogo({ className = "w-8 h-8" }: { className?: string }) {
@@ -277,10 +284,93 @@ function CircularExperienceGauge({ platform }: { platform: PlatformData }) {
 export function TextHoverSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activePlatform = platforms[activeIndex];
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardWrapRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      // Only apply expand -> reduce scroll animation on mobile (< 640px)
+      mm.add("(max-width: 639px)", () => {
+        const section = sectionRef.current;
+        const cardWrap = cardWrapRef.current;
+        const card = cardRef.current;
+        if (!section || !cardWrap || !card) return;
+
+        const baseHeight = card.offsetHeight;
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.7,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // 1. Expand top & bottom to fill full screen height + full bleed
+        tl.to(cardWrap, {
+          paddingLeft: 0,
+          paddingRight: 0,
+          duration: 1,
+          ease: "power2.inOut",
+        }, 0);
+
+        tl.to(
+          card,
+          {
+            minHeight: () => window.innerHeight,
+            borderRadius: 0,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          0
+        );
+
+        // 2. Brief hold at full expanded size
+        tl.to({}, { duration: 0.45 });
+
+        // 3. Reduce back to normal card size before revealing Contact / Footer
+        tl.to(cardWrap, {
+          paddingLeft: 10,
+          paddingRight: 10,
+          duration: 1,
+          ease: "power2.inOut",
+        });
+
+        tl.to(
+          card,
+          {
+            minHeight: baseHeight,
+            borderRadius: 32,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "<"
+        );
+      });
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef }
+  );
 
   return (
-    <section className="relative w-full bg-transparent flex flex-col items-center justify-center overflow-hidden pt-6 pb-16 sm:pt-12 sm:pb-24 md:pt-20 md:pb-28 px-2.5 sm:px-6 lg:px-8">
-      <div className="relative w-full max-w-[1500px] mx-auto bg-[#D5D1C3] text-[#1A1A1A] rounded-2xl sm:rounded-[2.5rem] md:rounded-[3.5rem] py-6 sm:py-16 md:py-24 px-3.5 sm:px-12 lg:px-16 shadow-2xl overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative w-full h-[220vh] sm:h-auto bg-transparent overflow-visible sm:overflow-hidden sm:pt-12 sm:pb-24 md:pt-20 md:pb-28 sm:px-6 lg:px-8"
+    >
+      <div
+        ref={cardWrapRef}
+        className="sticky top-0 h-[100dvh] flex items-center justify-center px-2.5 sm:static sm:h-auto sm:block sm:px-0"
+      >
+        <div
+          ref={cardRef}
+          className="relative w-full max-w-[1500px] mx-auto bg-[#D5D1C3] text-[#1A1A1A] rounded-[2rem] md:rounded-[3.5rem] py-6 sm:py-16 md:py-24 px-3.5 sm:px-12 lg:px-16 shadow-2xl overflow-hidden flex flex-col justify-center"
+        >
         
         {/* Subtle Ambient Glow */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/20 blur-[120px] rounded-full pointer-events-none" />
@@ -421,6 +511,7 @@ export function TextHoverSection() {
 
         </div>
 
+        </div>
       </div>
     </section>
   );
