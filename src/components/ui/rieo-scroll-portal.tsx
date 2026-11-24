@@ -20,6 +20,8 @@ const GALLERY_COLUMNS = [
     { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[4/5]" },
   ],
   // Column 2: Moves DOWN -> UP on scroll
   [
@@ -31,6 +33,8 @@ const GALLERY_COLUMNS = [
     { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb3.jpg", alt: "Editorial Frame 03", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[4/5]" },
   ],
   // Column 3: Moves UP -> DOWN on scroll
   [
@@ -42,6 +46,8 @@ const GALLERY_COLUMNS = [
     { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
     { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[4/5]" },
+    { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[3/4]" },
   ],
   // Column 4: Moves DOWN -> UP on scroll
   [
@@ -53,6 +59,8 @@ const GALLERY_COLUMNS = [
     { src: "/thumbnails/thumb2.jpg", alt: "Editorial Frame 02", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb3.jpg", alt: "Editorial Frame 03", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[4/5]" },
+    { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[3/4]" },
+    { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[4/5]" },
   ],
 ];
 
@@ -135,13 +143,13 @@ export function RieoScrollPortal() {
       });
 
       // Set alternating initial column positions:
-      // Col 0 & Col 2 (1st & 3rd): start shifted up so they move UP -> DOWN
-      // Col 1 & Col 3 (2nd & 4th): start at 0 so they move DOWN -> UP
+      // Col 0 & Col 2 (1st & 3rd): start shifted up (-32%) so they move UP -> DOWN
+      // Col 1 & Col 3 (2nd & 4th): start at 0% so they move DOWN -> UP
       colRefs.current.forEach((col, idx) => {
         if (!col) return;
         const isUpToDown = idx % 2 === 0;
         gsap.set(col, {
-          y: isUpToDown ? -getColTravel(col) : 0,
+          yPercent: isUpToDown ? -32 : 0,
           force3D: true,
         });
       });
@@ -254,16 +262,17 @@ export function RieoScrollPortal() {
 
       /* ============================================================
          PHASE 3: 4-COLUMN ALTERNATING SCROLL (1.95 -> 3.65)
-         - Col 1 & 3: UP -> DOWN (from -travel to 0)
-         - Col 2 & 4: DOWN -> UP (from 0 to -travel)
+         - Col 1 & 3: UP -> DOWN (from -32% to 0%)
+         - Col 2 & 4: DOWN -> UP (from 0% to -32%)
          ============================================================ */
       colRefs.current.forEach((col, idx) => {
         if (!col) return;
         const isUpToDown = idx % 2 === 0;
-        tl.to(
+        tl.fromTo(
           col,
+          { yPercent: isUpToDown ? -32 : 0 },
           {
-            y: () => (isUpToDown ? 0 : -getColTravel(col)),
+            yPercent: isUpToDown ? 0 : -32,
             duration: 1.7,
             ease: "none",
           },
