@@ -283,8 +283,36 @@ export function JourneyTimeline() {
             </div>
           </div>
 
-        {/* Timeline Area */}
-        <div ref={svgContainerRef} className="relative w-full h-[3000px]">
+        {/* Mobile Landscape 2-Column Compact Grid */}
+        <div className="lg:hidden grid grid-cols-2 gap-2.5 sm:gap-4 px-3 sm:px-6 pb-8 relative z-10">
+          {timelineData.map((item, i) => (
+            <div
+              key={i}
+              className="bg-[#E3E1D9] p-3 sm:p-5 rounded-2xl shadow-lg border border-white/30 flex flex-col justify-between"
+            >
+              <div>
+                <h3 className="text-2xl sm:text-4xl font-black text-[#E2F163] tracking-tighter leading-none mb-1 tabular-nums">
+                  {item.year}
+                </h3>
+                <h4 className="text-xs sm:text-base font-black text-black mb-1 tracking-tight leading-snug">
+                  {item.title}
+                </h4>
+                <p className="text-gray-700 text-[10px] sm:text-xs leading-snug font-medium line-clamp-3">
+                  {item.desc}
+                </p>
+              </div>
+              <div className="flex items-center justify-between pt-2 mt-2 border-t border-black/5">
+                <span className="text-[9px] sm:text-[10px] font-bold text-gray-700">@creative</span>
+                <span className="px-2 py-0.5 bg-[#F0EEE6] text-black text-[9px] font-bold rounded-md">
+                  Read
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Timeline Area */}
+        <div ref={svgContainerRef} className="hidden lg:block relative w-full h-[3000px]">
           
           {/* SVG Animated Line (Desktop) */}
           <svg 
@@ -314,6 +342,32 @@ export function JourneyTimeline() {
               style={{ willChange: "stroke-dashoffset" }}
             />
           </svg>
+
+            {/* SVG Animated Line (Desktop) */}
+            <svg
+              className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+              viewBox="0 0 1000 3000"
+              preserveAspectRatio="none"
+            >
+              <path
+                d={svgPath}
+                fill="none"
+                stroke="rgba(0,0,0,0.08)"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                ref={pathRef}
+                d={svgPath}
+                fill="none"
+                stroke="#0A0A0A"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ willChange: "stroke-dashoffset" }}
+              />
+            </svg>
 
             {/* SVG Animated Line (Desktop) */}
             <svg

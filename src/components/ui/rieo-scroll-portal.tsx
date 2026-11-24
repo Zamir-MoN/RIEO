@@ -385,20 +385,20 @@ export function RieoScrollPortal() {
             className="relative w-full h-full overflow-hidden pointer-events-auto will-change-[transform,opacity]"
           >
             {/* 4-Column Alternating Scroll Masonry Gallery */}
-            <div className="w-full h-full px-3 sm:px-5 md:px-6 overflow-hidden">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 h-full items-start">
+            <div className="w-full h-full px-1.5 sm:px-5 md:px-6 overflow-hidden">
+              <div className="grid grid-cols-4 gap-1.5 sm:gap-3 md:gap-4 h-full items-start">
                 {GALLERY_COLUMNS.map((col, colIdx) => (
                   <div
                     key={colIdx}
                     ref={(el) => {
                       colRefs.current[colIdx] = el;
                     }}
-                    className="flex flex-col gap-3 sm:gap-4 py-3 will-change-transform"
+                    className="flex flex-col gap-1.5 sm:gap-3 md:gap-4 py-1.5 sm:py-3 will-change-transform"
                   >
                     {col.map((item, itemIdx) => (
                       <div
                         key={itemIdx}
-                        className={`group relative w-full ${item.aspect} rounded-xl sm:rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shrink-0`}
+                        className={`group relative w-full ${item.aspect} rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shrink-0`}
                       >
                         {item.isVideo ? (
                           <video

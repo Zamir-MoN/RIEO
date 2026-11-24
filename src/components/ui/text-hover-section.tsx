@@ -256,8 +256,8 @@ function CircularExperienceGauge({ platform }: { platform: PlatformData }) {
       </svg>
 
       {/* Iridescent Gradient Center Disc */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] sm:w-[180px] h-[160px] sm:h-[180px] rounded-full bg-gradient-to-tr from-[#ffe4e6]/60 via-white to-[#dbeafe]/80 shadow-[0_12px_32px_rgba(79,70,229,0.1),_inset_0_2px_12px_rgba(255,255,255,0.9)] flex flex-col items-center justify-center pointer-events-none">
-        <div className="text-4xl sm:text-5xl font-black text-[#111827] tracking-tight tabular-nums">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[74px] sm:w-[150px] md:w-[180px] h-[74px] sm:h-[150px] md:h-[180px] rounded-full bg-gradient-to-tr from-[#ffe4e6]/60 via-white to-[#dbeafe]/80 shadow-[0_12px_32px_rgba(79,70,229,0.1),_inset_0_2px_12px_rgba(255,255,255,0.9)] flex flex-col items-center justify-center pointer-events-none">
+        <div className="text-lg sm:text-4xl md:text-5xl font-black text-[#111827] tracking-tight tabular-nums leading-none">
           <AnimatedCounter value={platform.percentage} />
         </div>
         <motion.span 
@@ -265,7 +265,7 @@ function CircularExperienceGauge({ platform }: { platform: PlatformData }) {
           initial={{ opacity: 0, y: 3 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="text-xs sm:text-sm font-semibold text-gray-500 tracking-wide mt-1"
+          className="text-[7px] sm:text-xs md:text-sm font-semibold text-gray-500 tracking-wide mt-0.5 sm:mt-1"
         >
           {platform.label}
         </motion.span>
@@ -279,25 +279,25 @@ export function TextHoverSection() {
   const activePlatform = platforms[activeIndex];
 
   return (
-    <section className="relative w-full min-h-[60vh] bg-[#050505] flex flex-col items-center justify-center overflow-hidden py-12 md:py-20 px-3 sm:px-6 lg:px-8">
-      <div className="relative w-full max-w-[1500px] mx-auto bg-[#D5D1C3] text-[#1A1A1A] rounded-[2rem] md:rounded-[3.5rem] py-14 sm:py-16 md:py-24 px-6 sm:px-12 lg:px-16 shadow-2xl overflow-hidden">
+    <section className="relative w-full bg-[#050505] flex flex-col items-center justify-center overflow-hidden py-6 sm:py-12 md:py-20 px-2.5 sm:px-6 lg:px-8">
+      <div className="relative w-full max-w-[1500px] mx-auto bg-[#D5D1C3] text-[#1A1A1A] rounded-2xl sm:rounded-[2.5rem] md:rounded-[3.5rem] py-6 sm:py-16 md:py-24 px-3.5 sm:px-12 lg:px-16 shadow-2xl overflow-hidden">
         
         {/* Subtle Ambient Glow */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/20 blur-[120px] rounded-full pointer-events-none" />
 
         {/* Header Indicator */}
-        <div className="flex items-center gap-3 mb-10 md:mb-14 relative z-10">
-          <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-          <p className="text-xs md:text-sm font-bold uppercase tracking-[0.3em] text-[#1A1A1A]/70">
+        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-10 md:mb-14 relative z-10">
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-500 animate-pulse" />
+          <p className="text-[9px] sm:text-xs md:text-sm font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[#1A1A1A]/70">
             Working Platforms & Proficiency
           </p>
         </div>
 
-        {/* 2-Column Responsive Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center relative z-10">
+        {/* 2-Column Landscape Layout on all viewports */}
+        <div className="grid grid-cols-12 gap-3 sm:gap-6 lg:gap-10 items-center relative z-10">
           
           {/* Left Column: Platform List with Distorted Text */}
-          <div className="lg:col-span-7 flex flex-col gap-6 sm:gap-8 md:gap-10 items-start w-full">
+          <div className="col-span-6 lg:col-span-7 flex flex-col gap-3 sm:gap-6 md:gap-10 items-start w-full">
             {platforms.map((platform, i) => {
               const isActive = activeIndex === i;
               return (
@@ -305,11 +305,11 @@ export function TextHoverSection() {
                   key={platform.name}
                   onMouseEnter={() => setActiveIndex(i)}
                   onClick={() => setActiveIndex(i)}
-                  className="group/item flex items-center gap-3 sm:gap-5 cursor-pointer w-full text-left select-none transition-all duration-300"
+                  className="group/item flex items-center gap-1.5 sm:gap-4 cursor-pointer w-full text-left select-none transition-all duration-300"
                 >
                   {/* Active Indicator Bar */}
                   <div 
-                    className={`h-8 sm:h-12 w-1.5 rounded-full transition-all duration-300 shrink-0 ${
+                    className={`h-5 sm:h-10 md:h-12 w-1 sm:w-1.5 rounded-full transition-all duration-300 shrink-0 ${
                       isActive 
                         ? "bg-[#4F46E5] scale-y-100 opacity-100" 
                         : "bg-black/10 scale-y-50 opacity-40 group-hover/item:opacity-70 group-hover/item:scale-y-75"
@@ -317,7 +317,7 @@ export function TextHoverSection() {
                   />
 
                   {/* Brand Logo Icon */}
-                  <div className={`w-8 h-8 sm:w-10 sm:h-10 shrink-0 transition-transform duration-300 ${isActive ? "scale-110 drop-shadow-md" : "opacity-75 group-hover/item:opacity-100"}`}>
+                  <div className={`w-5 h-5 sm:w-9 sm:h-9 md:w-10 md:h-10 shrink-0 transition-transform duration-300 ${isActive ? "scale-110 drop-shadow-md" : "opacity-75 group-hover/item:opacity-100"}`}>
                     {platform.logo}
                   </div>
                   
@@ -325,7 +325,7 @@ export function TextHoverSection() {
                   <DistortedHoverText 
                     text={platform.name} 
                     align="left"
-                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-left"
+                    className="text-xs sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl text-left"
                   />
                 </div>
               );
@@ -333,8 +333,8 @@ export function TextHoverSection() {
           </div>
 
           {/* Right Column: Circular Experience Gauge & Brand Badge */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center w-full">
-            <div className="w-full max-w-[420px] bg-[#E5E2D6]/80 backdrop-blur-md border border-black/5 rounded-3xl p-6 sm:p-8 flex flex-col items-center shadow-lg">
+          <div className="col-span-6 lg:col-span-5 flex flex-col items-center justify-center w-full">
+            <div className="w-full max-w-[200px] sm:max-w-[360px] md:max-w-[420px] bg-[#E5E2D6]/80 backdrop-blur-md border border-black/5 rounded-2xl sm:rounded-3xl p-3 sm:p-6 md:p-8 flex flex-col items-center shadow-lg">
               
               {/* Circular Gauge */}
               <CircularExperienceGauge platform={activePlatform} />
@@ -347,16 +347,16 @@ export function TextHoverSection() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.88, y: -10 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="mt-6 flex items-center gap-3.5 bg-black/[0.04] border border-black/5 px-4 sm:px-5 py-2.5 rounded-2xl shadow-sm"
+                  className="mt-2 sm:mt-6 flex items-center gap-2 sm:gap-3.5 bg-black/[0.04] border border-black/5 px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl sm:rounded-2xl shadow-sm w-full justify-center"
                 >
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 shrink-0 drop-shadow-sm">
+                  <div className="w-5 h-5 sm:w-9 sm:h-9 shrink-0 drop-shadow-sm">
                     {activePlatform.logo}
                   </div>
-                  <div className="flex flex-col text-left">
-                    <span className="text-xs sm:text-sm font-black text-black leading-tight tracking-tight">
+                  <div className="flex flex-col text-left min-w-0">
+                    <span className="text-[10px] sm:text-sm font-black text-black leading-tight tracking-tight truncate">
                       {activePlatform.name}
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                    <span className="text-[7px] sm:text-[10px] font-bold uppercase tracking-wider text-gray-500 truncate">
                       {activePlatform.role}
                     </span>
                   </div>
