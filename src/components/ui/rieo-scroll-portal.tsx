@@ -27,7 +27,7 @@ const GALLERY_COLUMNS = [
   [
     { src: "/thumbnails/thumb3.jpg", alt: "Editorial Frame 03", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[4/5]" },
-    { src: "/hero-bg-2.mp4", alt: "Motion Loop", aspect: "aspect-[3/4]", isVideo: true },
+    { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
     { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[4/5]" },
@@ -52,7 +52,7 @@ const GALLERY_COLUMNS = [
   // Column 4: Moves DOWN -> UP on scroll
   [
     { src: "/portrait.png", alt: "RIEO Portrait", aspect: "aspect-[3/4]" },
-    { src: "/hero-bg-2.mp4", alt: "Motion Loop", aspect: "aspect-[4/5]", isVideo: true },
+    { src: "/thumbnails/thumb6.jpg", alt: "Editorial Frame 06", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb1.jpg", alt: "Editorial Frame 01", aspect: "aspect-[3/4]" },
     { src: "/thumbnails/thumb4.jpg", alt: "Editorial Frame 04", aspect: "aspect-[4/5]" },
     { src: "/thumbnails/thumb5.webp", alt: "Editorial Frame 05", aspect: "aspect-[3/4]" },
@@ -160,7 +160,7 @@ export function RieoScrollPortal() {
           trigger: container,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.9,
+          scrub: 0.25,
           invalidateOnRefresh: true,
         },
       });
@@ -441,25 +441,13 @@ export function RieoScrollPortal() {
                         key={itemIdx}
                         className={`group relative w-full ${item.aspect} rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shrink-0`}
                       >
-                        {item.isVideo ? (
-                          <video
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          >
-                            <source src={item.src} type="video/mp4" />
-                          </video>
-                        ) : (
-                          <img
-                            src={item.src}
-                            alt={item.alt}
-                            loading="eager"
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                        )}
+                        <img
+                          src={item.src}
+                          alt={item.alt}
+                          loading="eager"
+                          decoding="async"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
                       </div>
                     ))}
                   </div>

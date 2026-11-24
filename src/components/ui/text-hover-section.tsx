@@ -306,7 +306,7 @@ export function TextHoverSection() {
             trigger: section,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.7,
+            scrub: 0.2,
             invalidateOnRefresh: true,
           },
         });
@@ -388,7 +388,7 @@ export function TextHoverSection() {
             })}
           </div>
 
-          <div className="w-full bg-[#E5E2D6]/85 backdrop-blur-md border border-black/5 rounded-2xl p-4 flex flex-col items-center shadow-lg">
+          <div className="w-full bg-[#E5E2D6] border border-black/5 rounded-2xl p-4 flex flex-col items-center shadow-lg">
             <div className="w-full max-w-[230px]">
               <CircularExperienceGauge platform={activePlatform} />
             </div>

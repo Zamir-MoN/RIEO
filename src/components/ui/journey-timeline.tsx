@@ -117,7 +117,7 @@ export function JourneyTimeline() {
         trigger: svgContainerRef.current,
         start: "top 80%",
         end: "bottom 80%",
-        scrub: 0.5,
+        scrub: 0.2,
         invalidateOnRefresh: true,
       },
     });
@@ -337,169 +337,169 @@ export function JourneyTimeline() {
               />
             </svg>
 
-          {/* SVG Animated Line (Desktop) */}
-          <svg
-            className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
-            viewBox="0 0 1000 3000"
-            preserveAspectRatio="none"
-          >
-            <path
-              d={svgPath}
-              fill="none"
-              stroke="rgba(0,0,0,0.08)"
-              strokeWidth="14"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              ref={pathRef}
-              d={svgPath}
-              pathLength={1}
-              strokeDasharray={1}
-              strokeDashoffset={1}
-              fill="none"
-              stroke="#0A0A0A"
-              strokeWidth="14"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{ willChange: "stroke-dashoffset" }}
-            />
-          </svg>
+            {/* SVG Animated Line (Desktop) */}
+            <svg
+              className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+              viewBox="0 0 1000 3000"
+              preserveAspectRatio="none"
+            >
+              <path
+                d={svgPath}
+                fill="none"
+                stroke="rgba(0,0,0,0.08)"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                ref={pathRef}
+                d={svgPath}
+                pathLength={1}
+                strokeDasharray={1}
+                strokeDashoffset={1}
+                fill="none"
+                stroke="#0A0A0A"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ willChange: "stroke-dashoffset" }}
+              />
+            </svg>
 
-          {/* SVG Animated Line (Desktop) */}
-          <svg
-            className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
-            viewBox="0 0 1000 3000"
-            preserveAspectRatio="none"
-          >
-            <path
-              d={svgPath}
-              fill="none"
-              stroke="rgba(0,0,0,0.08)"
-              strokeWidth="14"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              ref={pathRef}
-              d={svgPath}
-              fill="none"
-              stroke="#0A0A0A"
-              strokeWidth="14"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{ willChange: "stroke-dashoffset" }}
-            />
-          </svg>
+            {/* SVG Animated Line (Desktop) */}
+            <svg
+              className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+              viewBox="0 0 1000 3000"
+              preserveAspectRatio="none"
+            >
+              <path
+                d={svgPath}
+                fill="none"
+                stroke="rgba(0,0,0,0.08)"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                ref={pathRef}
+                d={svgPath}
+                fill="none"
+                stroke="#0A0A0A"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ willChange: "stroke-dashoffset" }}
+              />
+            </svg>
 
-          {/* SVG Animated Line (Desktop) */}
-          <svg
-            className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
-            viewBox="0 0 1000 3000"
-            preserveAspectRatio="none"
-          >
-            <path
-              d={svgPath}
-              fill="none"
-              stroke="rgba(0,0,0,0.08)"
-              strokeWidth="14"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              vectorEffect="non-scaling-stroke"
-            />
-            <path
-              ref={pathRef}
-              d={svgPath}
-              fill="none"
-              stroke="#0A0A0A"
-              strokeWidth="14"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              vectorEffect="non-scaling-stroke"
-              style={{ willChange: "stroke-dashoffset" }}
-            />
-          </svg>
+            {/* SVG Animated Line (Desktop) */}
+            <svg
+              className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+              viewBox="0 0 1000 3000"
+              preserveAspectRatio="none"
+            >
+              <path
+                d={svgPath}
+                fill="none"
+                stroke="rgba(0,0,0,0.08)"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                vectorEffect="non-scaling-stroke"
+              />
+              <path
+                ref={pathRef}
+                d={svgPath}
+                fill="none"
+                stroke="#0A0A0A"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                vectorEffect="non-scaling-stroke"
+                style={{ willChange: "stroke-dashoffset" }}
+              />
+            </svg>
 
-          {/* SVG Animated Line (Desktop) */}
-          <svg
-            className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
-            viewBox="0 0 1000 3000"
-            preserveAspectRatio="none"
-          >
-            <path
-              d={svgPath}
-              fill="none"
-              stroke="rgba(0,0,0,0.06)"
-              strokeWidth="4"
-            />
-            <path
-              ref={pathRef}
-              d={svgPath}
-              fill="none"
-              stroke="black"
-              strokeWidth="4"
-            />
-          </svg>
+            {/* SVG Animated Line (Desktop) */}
+            <svg
+              className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+              viewBox="0 0 1000 3000"
+              preserveAspectRatio="none"
+            >
+              <path
+                d={svgPath}
+                fill="none"
+                stroke="rgba(0,0,0,0.06)"
+                strokeWidth="4"
+              />
+              <path
+                ref={pathRef}
+                d={svgPath}
+                fill="none"
+                stroke="black"
+                strokeWidth="4"
+              />
+            </svg>
 
-          {/* Cards */}
-          {timelineData.map((item, i) => {
-            const isLeft = item.side === "left";
-            return (
-              <div
-                key={i}
-                className={`journey-card absolute bg-[#E3E1D9] p-[clamp(1.25rem,2vw,2rem)] rounded-[1.5rem] md:rounded-[2rem] shadow-xl border border-white/30 z-10 flex flex-col -translate-y-1/2 w-[clamp(280px,32vw,440px)] ${isLeft
-                  ? 'left-1/2 -translate-x-1/2 lg:left-[clamp(1.5rem,5vw,5rem)] lg:translate-x-0'
-                  : 'left-1/2 -translate-x-1/2 lg:left-auto lg:right-[clamp(1.5rem,5vw,5rem)] lg:translate-x-0'
-                  }`}
-                style={{
-                  top: item.top,
-                }}
-              >
-                {/* Yellow Dot (Desktop) */}
-                <div className={`hidden lg:block absolute top-1/2 -translate-y-1/2 ${isLeft ? 'left-0 -translate-x-1/2' : 'right-0 translate-x-1/2'} w-4 h-4 rounded-full bg-[#E2F163] border-[3px] border-black z-20`} />
+            {/* Cards */}
+            {timelineData.map((item, i) => {
+              const isLeft = item.side === "left";
+              return (
+                <div
+                  key={i}
+                  className={`journey-card absolute bg-[#E3E1D9] p-[clamp(1.25rem,2vw,2rem)] rounded-[1.5rem] md:rounded-[2rem] shadow-xl border border-white/30 z-10 flex flex-col -translate-y-1/2 w-[clamp(280px,32vw,440px)] ${isLeft
+                    ? 'left-1/2 -translate-x-1/2 lg:left-[clamp(1.5rem,5vw,5rem)] lg:translate-x-0'
+                    : 'left-1/2 -translate-x-1/2 lg:left-auto lg:right-[clamp(1.5rem,5vw,5rem)] lg:translate-x-0'
+                    }`}
+                  style={{
+                    top: item.top,
+                  }}
+                >
+                  {/* Yellow Dot (Desktop) */}
+                  <div className={`hidden lg:block absolute top-1/2 -translate-y-1/2 ${isLeft ? 'left-0 -translate-x-1/2' : 'right-0 translate-x-1/2'} w-4 h-4 rounded-full bg-[#E2F163] border-[3px] border-black z-20`} />
 
-                <h3 className="text-5xl sm:text-6xl font-black text-[#E2F163] tracking-tighter leading-none mb-1.5 tabular-nums">
-                  {item.year}
-                </h3>
-                <div className="relative z-10 mt-2.5">
-                  <h4 className="text-xl sm:text-2xl font-black text-black mb-2 tracking-tight">
-                    {item.title}
-                  </h4>
-                  <p className="text-gray-700 text-xs sm:text-sm leading-relaxed font-medium mb-5">
-                    {item.desc}
-                  </p>
+                  <h3 className="text-5xl sm:text-6xl font-black text-[#E2F163] tracking-tighter leading-none mb-1.5 tabular-nums">
+                    {item.year}
+                  </h3>
+                  <div className="relative z-10 mt-2.5">
+                    <h4 className="text-xl sm:text-2xl font-black text-black mb-2 tracking-tight">
+                      {item.title}
+                    </h4>
+                    <p className="text-gray-700 text-xs sm:text-sm leading-relaxed font-medium mb-5">
+                      {item.desc}
+                    </p>
 
-                  {/* Card Footer */}
-                  <div className="flex items-center justify-between pt-3.5 mt-auto border-t border-black/5">
-                    <div className="flex items-center gap-2">
-                      <div className="flex -space-x-2">
-                        <div className="w-7 h-7 rounded-full bg-[#D1CFC7] flex items-center justify-center border-2 border-[#E3E1D9] relative z-10">
-                          <svg className="w-3 h-3 text-[#E2F163]" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 3l8 7h-2v9h-4v-5H10v5H6v-9H4l8-7z" />
-                          </svg>
+                    {/* Card Footer */}
+                    <div className="flex items-center justify-between pt-3.5 mt-auto border-t border-black/5">
+                      <div className="flex items-center gap-2">
+                        <div className="flex -space-x-2">
+                          <div className="w-7 h-7 rounded-full bg-[#D1CFC7] flex items-center justify-center border-2 border-[#E3E1D9] relative z-10">
+                            <svg className="w-3 h-3 text-[#E2F163]" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 3l8 7h-2v9h-4v-5H10v5H6v-9H4l8-7z" />
+                            </svg>
+                          </div>
+                          <div className="w-7 h-7 rounded-full bg-gray-300 border-2 border-[#E3E1D9] relative z-0 overflow-hidden shrink-0">
+                            <Image src={`https://i.pravatar.cc/100?img=${i + 10}`} width={28} height={28} alt="avatar" loading="lazy" className="w-full h-full object-cover" />
+                          </div>
                         </div>
-                        <div className="w-7 h-7 rounded-full bg-gray-300 border-2 border-[#E3E1D9] relative z-0 overflow-hidden shrink-0">
-                          <Image src={`https://i.pravatar.cc/100?img=${i + 10}`} width={28} height={28} alt="avatar" loading="lazy" className="w-full h-full object-cover" />
+                        <div className="flex flex-col">
+                          <span className="text-[11px] font-bold text-gray-800">@creative</span>
+                          <span className="text-[9px] font-medium text-gray-500">2 years ago</span>
                         </div>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-[11px] font-bold text-gray-800">@creative</span>
-                        <span className="text-[9px] font-medium text-gray-500">2 years ago</span>
-                      </div>
+
+                      <button className="px-3.5 py-1.5 bg-[#F0EEE6] hover:bg-white text-black text-[11px] font-bold rounded-lg transition-colors shadow-sm">
+                        Read more
+                      </button>
                     </div>
-
-                    <button className="px-3.5 py-1.5 bg-[#F0EEE6] hover:bg-white text-black text-[11px] font-bold rounded-lg transition-colors shadow-sm">
-                      Read more
-                    </button>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
 
+          </div>
         </div>
       </div>
-    </div>
     </section >
   );
 }
